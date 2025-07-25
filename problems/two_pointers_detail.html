@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>2 Pointers Approach in DSA</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Ubuntu', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      font-size: 14px;
+      line-height: 1.6;
+      color: #333;
+      background-color: #f8f9fa;
+      padding: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .container {
+      /* background-color: #ffffff; */
+      padding: 30px;
+      border-radius: 8px;
+      /* box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); */
+    }
+
+    h1 {
+      color: #2c3e50;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-align: center;
+      /* border-bottom: 3px solid #3498db; */
+      padding-bottom: 10px;
+    }
+
+    h2 {
+      color: #34495e;
+      font-size: 20px;
+      margin: 25px 0 15px 0;
+      /* text-decoration: underline; */
+    }
+
+    h3 {
+      color: #2c3e50;
+      font-size: 16px;
+      margin: 20px 0 10px 0;
+      /* text-decoration: underline; */
+    }
+
+    .important {
+      /* text-decoration: underline; */
+      font-weight: bold;
+      color: #e74c3c;
+    }
+
+    .highlight {
+      background-color: #fff3cd;
+      padding: 3px 6px;
+      border-radius: 3px;
+      text-decoration: underline;
+    }
+
+    code {
+      background-color: #f8f9fa;
+      padding: 2px 5px;
+      border-radius: 3px;
+      font-family: 'Ubuntu Mono', 'Courier New', monospace;
+      font-size: 13px;
+    }
+
+    pre {
+      background-color: #f8f9fa;
+      border: 1px solid #dee2e6;
+      border-radius: 5px;
+      padding: 15px;
+      margin: 15px 0;
+      overflow-x: auto;
+      font-family: 'Ubuntu Mono', 'Courier New', monospace;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .algorithm-box {
+      /* border: 2px solid #3498db;
+      border-radius: 5px; */
+      padding: 15px;
+      margin: 15px 0;
+      background-color: #ecf0f1;
+    }
+
+    .complexity {
+      background-color: #d1ecf1;
+      border: 1px solid #bee5eb;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 10px 0;
+    }
+
+    .example {
+      background-color: #f8f9fa;
+      border-left: 4px solid #28a745;
+      padding: 15px;
+      margin: 15px 0;
+    }
+
+    .note {
+      background-color: #fff3cd;
+      border: 1px solid #ffeaa7;
+      border-radius: 5px;
+      padding: 10px;
+      margin: 15px 0;
+    }
+
+    ul,
+    ol {
+      margin: 10px 0 10px 30px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 15px 0;
+      font-size: 13px;
+    }
+
+    th,
+    td {
+      border: 1px solid #dee2e6;
+      padding: 8px 12px;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f8f9fa;
+      font-weight: bold;
+    }
+
+    .pattern-title {
+      color: #8e44ad;
+      font-weight: bold;
+      /* text-decoration: underline; */
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h1>2 Pointers Approach in Data Structures & Algorithms</h1>
+
+    <h2>What is the 2 Pointers Approach?</h2>
+    <p>The <span class="important">2 Pointers technique</span> is an algorithmic approach that uses <span
+        class="highlight">two pointers to traverse data structures</span>, typically arrays or strings. Instead of using
+      nested loops (which often result in O(n²) complexity), this technique can solve many problems in <span
+        class="important">O(n) time complexity</span>.</p>
+
+    <div class="note">
+      <strong>Key Concept:</strong> Two pointers move through the data structure based on certain conditions,
+      eliminating the need for nested iterations in many scenarios.
+    </div>
+
+    <h2>When to Use 2 Pointers?</h2>
+    <p>The 2 pointers approach is particularly useful when:</p>
+    <ul>
+      <li>Working with <span class="highlight">sorted arrays</span> or strings</li>
+      <li>Looking for <span class="important">pairs or subarrays</span> that satisfy certain conditions</li>
+      <li>Need to <span class="highlight">reduce time complexity</span> from O(n²) to O(n)</li>
+      <li>Dealing with problems involving <span class="important">palindromes, target sums, or sliding windows</span>
+      </li>
+    </ul>
+
+    <h2>Types of 2 Pointers Patterns</h2>
+
+    <h3 class="pattern-title">1. Opposite Direction (Convergent) Pointers</h3>
+    <p>Pointers start from <span class="highlight">opposite ends</span> and move towards each other.</p>
+    <div class="algorithm-box">
+      <strong>Pattern:</strong> left = 0, right = array.length - 1<br>
+      <strong>Movement:</strong> left++, right-- based on conditions
+    </div>
+
+    <h3 class="pattern-title">2. Same Direction (Sliding Window) Pointers</h3>
+    <p>Both pointers start from the <span class="highlight">same side</span> and move in the same direction.</p>
+    <div class="algorithm-box">
+      <strong>Pattern:</strong> left = 0, right = 0<br>
+      <strong>Movement:</strong> right++ to expand window, left++ to shrink window
+    </div>
+
+    <h3 class="pattern-title">3. Fast and Slow Pointers</h3>
+    <p>One pointer moves <span class="highlight">faster than the other</span>, commonly used in linked lists.</p>
+    <div class="algorithm-box">
+      <strong>Pattern:</strong> slow moves 1 step, fast moves 2 steps<br>
+      <strong>Usage:</strong> Cycle detection, finding middle element
+    </div>
+
+    <h2>Problem Examples with Java Solutions</h2>
+
+    <h3>Example 1: Two Sum in Sorted Array (Opposite Direction)</h3>
+    <div class="example">
+      <strong>Problem:</strong> Find two numbers in a sorted array that add up to a target sum.
+    </div>
+
+    <pre><code>public class TwoSum {
+    public static int[] twoSum(int[] nums, int target) {
+        <span class="important">int left = 0;                    // Start pointer</span>
+        <span class="important">int right = nums.length - 1;     // End pointer</span>
+        
+        while (left < right) {
+            int currentSum = nums[left] + nums[right];
+            
+            if (currentSum == target) {
+                <span class="highlight">return new int[]{left, right};</span>  // Found the pair
+            } 
+            else if (currentSum < target) {
+                <span class="important">left++;     // Need larger sum, move left pointer</span>
+            } 
+            else {
+                <span class="important">right--;    // Need smaller sum, move right pointer</span>
+            }
+        }
+        return new int[]{-1, -1};  // No solution found
+    }
+    
+    public static void main(String[] args) {
+        int[] nums = {2, 7, 11, 15};
+        int target = 9;
+        int[] result = twoSum(nums, target);
+        
+        System.out.println("Indices: [" + result[0] + ", " + result[1] + "]");
+        // Output: Indices: [0, 1]
+    }
+}</code></pre>
+
+    <div class="complexity">
+      <strong>Time Complexity:</strong> O(n) - Single pass through array<br>
+      <strong>Space Complexity:</strong> O(1) - Only using two pointers
+    </div>
+
+    <h3>Example 2: Valid Palindrome (Opposite Direction)</h3>
+    <div class="example">
+      <strong>Problem:</strong> Check if a string is a palindrome, ignoring non-alphanumeric characters.
+    </div>
+
+    <pre><code>public class ValidPalindrome {
+    public static boolean isPalindrome(String s) {
+        <span class="important">int left = 0;</span>
+        <span class="important">int right = s.length() - 1;</span>
+        
+        while (left < right) {
+            // <span class="highlight">Skip non-alphanumeric characters from left</span>
+            while (left < right && !Character.isLetterOrDigit(s.charAt(left))) {
+                left++;
+            }
+            
+            // <span class="highlight">Skip non-alphanumeric characters from right</span>
+            while (left < right && !Character.isLetterOrDigit(s.charAt(right))) {
+                right--;
+            }
+            
+            // <span class="important">Compare characters (case-insensitive)</span>
+            if (Character.toLowerCase(s.charAt(left)) != 
+                Character.toLowerCase(s.charAt(right))) {
+                return false;
+            }
+            
+            left++;
+            right--;
+        }
+        return true;
+    }
+    
+    public static void main(String[] args) {
+        String test1 = "A man, a plan, a canal: Panama";
+        String test2 = "race a car";
+        
+        System.out.println("\"" + test1 + "\" is palindrome: " + isPalindrome(test1));
+        System.out.println("\"" + test2 + "\" is palindrome: " + isPalindrome(test2));
+        // Output: true, false
+    }
+}</code></pre>
+
+    <h3>Example 3: Container With Most Water (Opposite Direction)</h3>
+    <div class="example">
+      <strong>Problem:</strong> Find two lines that form a container holding the most water.
+    </div>
+
+    <pre><code>public class ContainerWithMostWater {
+    public static int maxArea(int[] height) {
+        <span class="important">int left = 0;</span>
+        <span class="important">int right = height.length - 1;</span>
+        <span class="important">int maxWater = 0;</span>
+        
+        while (left < right) {
+            // <span class="highlight">Calculate current water area</span>
+            int currentWater = Math.min(height[left], height[right]) * (right - left);
+            maxWater = Math.max(maxWater, currentWater);
+            
+            // <span class="important">Move pointer with smaller height</span>
+            if (height[left] < height[right]) {
+                left++;
+            } else {
+                right--;
+            }
+        }
+        return maxWater;
+    }
+    
+    public static void main(String[] args) {
+        int[] heights = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+        int result = maxArea(heights);
+        
+        System.out.println("Maximum water area: " + result);
+        // Output: Maximum water area: 49
+    }
+}</code></pre>
+
+    <h3>Example 4: Longest Substring Without Repeating Characters (Sliding Window)</h3>
+    <div class="example">
+      <strong>Problem:</strong> Find the length of the longest substring without repeating characters.
+    </div>
+
+    <pre><code>import java.util.HashSet;
+import java.util.Set;
+
+public class LongestSubstring {
+    public static int lengthOfLongestSubstring(String s) {
+        <span class="important">int left = 0, right = 0;</span>  // Both pointers start at beginning
+        <span class="important">int maxLength = 0;</span>
+        <span class="highlight">Set&lt;Character&gt; window = new HashSet&lt;&gt;();</span>  // Track characters in window
+        
+        while (right < s.length()) {
+            char rightChar = s.charAt(right);
+            
+            // <span class="important">If character is already in window, shrink from left</span>
+            while (window.contains(rightChar)) {
+                window.remove(s.charAt(left));
+                left++;
+            }
+            
+            // <span class="highlight">Add current character and expand window</span>
+            window.add(rightChar);
+            maxLength = Math.max(maxLength, right - left + 1);
+            right++;
+        }
+        return maxLength;
+    }
+    
+    public static void main(String[] args) {
+        String test1 = "abcabcbb";
+        String test2 = "bbbbb";
+        String test3 = "pwwkew";
+        
+        System.out.println("\"" + test1 + "\" -> " + lengthOfLongestSubstring(test1));
+        System.out.println("\"" + test2 + "\" -> " + lengthOfLongestSubstring(test2));
+        System.out.println("\"" + test3 + "\" -> " + lengthOfLongestSubstring(test3));
+        // Output: 3, 1, 3
+    }
+}</code></pre>
+
+    <h3>Example 5: Remove Duplicates from Sorted Array (Same Direction)</h3>
+    <div class="example">
+      <strong>Problem:</strong> Remove duplicates from sorted array in-place and return new length.
+    </div>
+
+    <pre><code>public class RemoveDuplicates {
+    public static int removeDuplicates(int[] nums) {
+        if (nums.length == 0) return 0;
+        
+        <span class="important">int slow = 0;</span>  // Points to position for next unique element
+        
+        for (<span class="important">int fast = 1;</span> fast < nums.length; fast++) {
+            // <span class="highlight">If current element is different from previous unique element</span>
+            if (nums[fast] != nums[slow]) {
+                slow++;
+                <span class="important">nums[slow] = nums[fast];</span>  // Place unique element
+            }
+        }
+        return slow + 1;  // Length of array without duplicates
+    }
+    
+    public static void main(String[] args) {
+        int[] nums = {1, 1, 2, 2, 2, 3, 4, 4, 5};
+        int newLength = removeDuplicates(nums);
+        
+        System.out.print("Array after removing duplicates: ");
+        for (int i = 0; i < newLength; i++) {
+            System.out.print(nums[i] + " ");
+        }
+        System.out.println("\nNew length: " + newLength);
+        // Output: Array after removing duplicates: 1 2 3 4 5
+        // New length: 5
+    }
+}</code></pre>
+
+    <h2>Common Problem Patterns and Their Solutions</h2>
+
+    <table>
+      <thead>
+        <tr>
+          <th>Problem Type</th>
+          <th>Pointer Pattern</th>
+          <th>Key Strategy</th>
+          <th>Time Complexity</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Target Sum in Sorted Array</td>
+          <td>Opposite Direction</td>
+          <td>Move based on sum comparison</td>
+          <td>O(n)</td>
+        </tr>
+        <tr>
+          <td>Palindrome Check</td>
+          <td>Opposite Direction</td>
+          <td>Compare characters from ends</td>
+          <td>O(n)</td>
+        </tr>
+        <tr>
+          <td>Sliding Window Maximum</td>
+          <td>Same Direction</td>
+          <td>Expand/shrink window based on condition</td>
+          <td>O(n)</td>
+        </tr>
+        <tr>
+          <td>Remove Duplicates</td>
+          <td>Fast-Slow</td>
+          <td>Slow tracks position, fast finds elements</td>
+          <td>O(n)</td>
+        </tr>
+        <tr>
+          <td>Cycle Detection</td>
+          <td>Fast-Slow (Floyd's)</td>
+          <td>Fast moves 2x speed of slow</td>
+          <td>O(n)</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>Step-by-Step Problem Solving Approach</h2>
+    <ol>
+      <li><span class="important">Identify if 2 pointers can be applied:</span>
+        <ul>
+          <li>Is the array/string sorted?</li>
+          <li>Are you looking for pairs/subarrays?</li>
+          <li>Can brute force be optimized?</li>
+        </ul>
+      </li>
+      <li><span class="important">Choose the right pattern:</span>
+        <ul>
+          <li>Opposite direction for sorted arrays</li>
+          <li>Same direction for sliding windows</li>
+          <li>Fast-slow for cycle problems</li>
+        </ul>
+      </li>
+      <li><span class="important">Define pointer movement conditions:</span>
+        <ul>
+          <li>When to move left pointer?</li>
+          <li>When to move right pointer?</li>
+          <li>When to stop?</li>
+        </ul>
+      </li>
+      <li><span class="important">Handle edge cases:</span>
+        <ul>
+          <li>Empty arrays</li>
+          <li>Single element</li>
+          <li>All elements same</li>
+        </ul>
+      </li>
+    </ol>
+
+    <h2>Advantages and Limitations</h2>
+
+    <h3>Advantages:</h3>
+    <ul>
+      <li><span class="highlight">Reduces time complexity</span> from O(n²) to O(n) in many cases</li>
+      <li><span class="important">Space efficient</span> - usually O(1) extra space</li>
+      <li><span class="highlight">Elegant and readable</span> solutions</li>
+      <li>Widely applicable to various problem types</li>
+    </ul>
+
+    <h3>Limitations:</h3>
+    <ul>
+      <li>Often requires <span class="important">sorted data</span> for optimal performance</li>
+      <li>Not suitable for all problems</li>
+      <li>Can be tricky to implement correctly for complex conditions</li>
+      <li>May require additional data structures for some variants</li>
+    </ul>
+
+    <div class="note">
+      <strong>Pro Tip:</strong> Practice identifying when to use 2 pointers by asking: "Can I solve this problem by
+      comparing or processing elements from different positions without nested loops?"
+    </div>
+
+    <h2>Practice Problems to Master 2 Pointers</h2>
+    <ul>
+      <li>3Sum Problem</li>
+      <li>Trapping Rain Water</li>
+      <li>Minimum Window Substring</li>
+      <li>Sort Colors (Dutch National Flag)</li>
+      <li>Intersection of Two Arrays</li>
+      <li>Reverse String/Array</li>
+      <li>Find Peak Element</li>
+      <li>Longest Palindromic Substring</li>
+    </ul>
+
+    <div class="complexity">
+      <strong>Remember:</strong> The key to mastering 2 pointers is understanding <span class="underline">when and how
+        to move each pointer</span> based on the problem's constraints and the current state of your solution.
+    </div>
+  </div>
+</body>
+
+</html>

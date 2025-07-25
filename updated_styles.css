@@ -1,0 +1,220 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+a:hover {
+  text-decoration: none;
+}
+
+.top-nav {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 1rem 2rem;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-weight: bold;
+  font-size: 1.4rem;
+}
+
+.nav-links {
+  list-style: none;
+  display: flex;
+  gap: 1.5rem;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #222;
+  font-weight: 500;
+}
+
+.nav-links a:hover {
+  color: #000;
+}
+
+header {
+  border-bottom: 1px solid #e0e0e0;
+  padding: 3rem 2rem;
+}
+
+.header-content {
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.header-content h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-size: 1.2rem;
+  color: #555;
+  margin-bottom: 2rem;
+}
+
+.search-container {
+  display: flex;
+  justify-content: center;
+}
+
+.search-box {
+  position: relative;
+  width: 100%;
+  max-width: 500px;
+}
+
+.search-input {
+  width: 100%;
+  padding: 0.8rem 2.5rem 0.8rem 1rem;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.search-icon {
+  position: absolute;
+  right: 0.8rem;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #777;
+}
+
+.main-content {
+  max-width: 1200px;
+  margin: 3rem auto;
+  padding: 0 2rem;
+}
+
+.topics-count {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+/* Two-column layout for topics */
+.topics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+  gap: 2rem 3rem;
+  align-items: start;
+}
+
+.topic-card {
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.topic-header {
+  margin-bottom: 0.5rem;
+}
+
+.topic-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111;
+  text-decoration: underline;
+  /* underline titles only */
+}
+
+.topic-title:hover {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.topic-meta {
+  font-size: 0.9rem;
+  color: #777;
+  margin-bottom: 0.5rem;
+}
+
+.topic-description {
+  font-size: 1rem;
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.topic-tags {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.topic-tag {
+  font-size: 0.8rem;
+  color: #333;
+  background-color: #f6f6ff;
+  /* light background for tags */
+  padding: 0.3rem 0.6rem;
+  border-radius: 4px;
+}
+
+.topic-status {
+  display: inline-block;
+  margin-left: 0.5rem;
+  font-size: 0.7rem;
+  color: #2563eb;
+}
+
+.topic-contributor {
+  margin-top: 0.6rem;
+  font-size: 0.85rem;
+  color: #555;
+}
+
+.topic-contributor .contributor-name {
+  font-weight: 600;
+  color: #222;
+}
+
+.topic-contributor .contributor-link {
+  color: #2563eb;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.topic-contributor .contributor-link:hover {
+  text-decoration: underline;
+}
+
+.owner-badge {
+  display: inline-block;
+  margin-left: 0.4rem;
+  padding: 0.2rem 0.4rem;
+  background-color: #2563eb;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 600;
+  border-radius: 4px;
+}
+
+
+
+footer {
+  border-top: 1px solid #e0e0e0;
+  padding: 2rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #777;
+}
+
+@media (max-width: 768px) {
+  .header-content h1 {
+    font-size: 2rem;
+  }
+
+  .topics-grid {
+    grid-template-columns: 1fr;
+  }
+}

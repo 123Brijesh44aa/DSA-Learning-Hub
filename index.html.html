@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DSA Learning Hub</title>
+    <link rel="stylesheet" href="updated_styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <h1>DSA Learning Hub</h1>
+                <p class="subtitle">Master Data Structures & Algorithms</p>
+
+                <div class="search-container">
+                    <div class="search-box">
+                        <input type="text" class="search-input" placeholder="Search topics..." id="searchInput">
+                        <span class="search-icon">🔍</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <div class="main-content">
+            <div class="topics-count" id="topicsCount">
+                <strong>0</strong> topics available
+            </div>
+
+            <div class="topics-grid" id="topicsList">
+                <!-- Topics will be populated here -->
+            </div>
+
+            <div class="no-results" id="noResults" style="display: none;">
+                <h3>No topics found</h3>
+                <p>Try adjusting your search criteria</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include JavaScript files -->
+    <script src="dsa_topics.js"></script>
+    <script src="dsa_script.js"></script>
+</body>
+
+</html>
