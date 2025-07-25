@@ -13,7 +13,22 @@ const topics = [
         "contributorName": "Brijesh Mourya",
         "contributorGithub": "123Brijesh44aa",
         "owner": true
+    },
+
+    {
+        "title": "2 Sum Problem",
+        "description": "Solve the classic 2 Sum Problem using hash maps and two-pointer techniques. Learn how to find two numbers in an array that add up to a target value efficiently.",
+        "difficulty": "easy",
+        "date": "2025-07-25",
+        "completed": false,
+        "filename": "problems\\two-sum-dsa-page.html",
+        "icon": " ",
+        "tags": ["algorithms", "arrays", "hashmap", "two-pointers"],
+        "contributorName": "Brijesh Mourya",
+        "contributorGithub": "123Brijesh44aa",
+        "owner": true
     }
+
 
 ];
 

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Two Pointers Approach - 2 Sum Problem in DSA</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #f8f9fa;
+            color: #333;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+
+
+        .badge {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+        }
+
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .tags {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin: 30px 0;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .tag {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .tag:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 40px;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        .author-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: #667eea;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 1.2rem;
+        }
+
+        .author-info {
+            color: white;
+        }
+
+        .author-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .author-handle {
+            opacity: 0.8;
+            font-size: 0.9rem;
+        }
+
+        .content {
+            background: white;
+            margin: 0;
+            padding: 60px 0;
+        }
+
+        .section {
+            margin-bottom: 60px;
+            padding: 0 40px;
+        }
+
+        .section h2 {
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            color: #2c3e50;
+            position: relative;
+            padding-bottom: 15px;
+        }
+
+        .section h2::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 60px;
+            height: 4px;
+            background: #667eea;
+            border-radius: 2px;
+        }
+
+        .section h3 {
+            font-size: 1.8rem;
+            margin: 30px 0 20px 0;
+            color: #34495e;
+        }
+
+        .section p {
+            font-size: 1.1rem;
+            margin-bottom: 20px;
+            color: #555;
+        }
+
+        .code-container {
+            background: #1a1a1a;
+            border-radius: 8px;
+            padding: 25px;
+            margin: 25px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .code-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        .code-dots {
+            display: flex;
+            gap: 8px;
+            margin-right: 15px;
+        }
+
+        .dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .dot.red {
+            background: #ff5f56;
+        }
+
+        .dot.yellow {
+            background: #ffbd2e;
+        }
+
+        .dot.green {
+            background: #27ca3f;
+        }
+
+        pre {
+            background: none;
+            color: #f8f8f2;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 1rem;
+            line-height: 1.5;
+            overflow-x: auto;
+        }
+
+        .keyword {
+            color: #ff79c6;
+        }
+
+        .string {
+            color: #f1fa8c;
+        }
+
+        .number {
+            color: #bd93f9;
+        }
+
+        .comment {
+            color: #6272a4;
+        }
+
+        .function {
+            color: #50fa7b;
+        }
+
+        .complexity-box {
+            background: #667eea;
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .complexity-box h4 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        .algorithm-steps {
+            background: #f8f9fa;
+            border-left: 5px solid #667eea;
+            padding: 25px;
+            border-radius: 8px;
+            margin: 25px 0;
+        }
+
+        .step {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateX(3px);
+        }
+
+        .step-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            margin-right: 20px;
+            flex-shrink: 0;
+        }
+
+        .interactive-demo {
+            background: #f8f9fa;
+            border-radius: 8px;
+            padding: 30px;
+            margin: 30px 0;
+            text-align: center;
+        }
+
+        .demo-array {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+            flex-wrap: wrap;
+        }
+
+        .array-element {
+            width: 60px;
+            height: 60px;
+            background: white;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .array-element.pointer {
+            border-color: #667eea;
+            background: #667eea;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        .demo-controls {
+            margin: 20px 0;
+        }
+
+        .btn {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+            background: #5a6fd8;
+        }
+
+        .patterns-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .pattern-card {
+            background: white;
+            border-radius: 8px;
+            padding: 25px;
+            border: 1px solid #eee;
+            transition: all 0.3s ease;
+        }
+
+        .pattern-card:hover {
+            border-color: #667eea;
+        }
+
+        .pattern-card h4 {
+            color: #667eea;
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .section {
+                padding: 0 20px;
+            }
+
+            .patterns-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tags {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+
+    <main class="content">
+        <div class="container">
+            <section class="section fade-in">
+                <h2>Understanding the 2 Sum Problem</h2>
+                <p>The 2 Sum problem is a fundamental algorithmic challenge that asks: Given an array of integers and a
+                    target sum, find two numbers in the array that add up to the target. This problem serves as an
+                    excellent introduction to the Two Pointers technique, demonstrating how we can optimize from O(n²)
+                    brute force to O(n) time complexity.</p>
+
+                <div class="complexity-box">
+                    <h4>🎯 Problem Statement</h4>
+                    <p><strong>Input:</strong> An array of integers nums[] and a target integer</p>
+                    <p><strong>Output:</strong> Indices of two numbers that add up to target</p>
+                    <p><strong>Constraint:</strong> Each input has exactly one solution, and you cannot use the same
+                        element twice</p>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Algorithm Implementation</h2>
+
+                <h3>Approach 1: Hash Map (Optimal for Unsorted Array)</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <span>Java Implementation</span>
+                    </div>
+                    <pre><code><span class="keyword">import</span> java.util.*;
+
+<span class="keyword">class</span> <span class="function">Solution</span> {
+    <span class="keyword">public</span> <span class="keyword">int</span>[] <span class="function">twoSum</span>(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) {
+        Map&lt;Integer, Integer&gt; map = <span class="keyword">new</span> HashMap&lt;&gt;();
+        
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; nums.length; i++) {
+            <span class="keyword">int</span> complement = target - nums[i];
+            
+            <span class="keyword">if</span> (map.containsKey(complement)) {
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]{map.get(complement), i};
+            }
+            
+            map.put(nums[i], i);
+        }
+        
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>]; <span class="comment">// No solution found</span>
+    }
+}</code></pre>
+                </div>
+
+                <h3>Approach 2: Two Pointers (For Sorted Array)</h3>
+                <div class="code-container">
+                    <div class="code-header">
+                        <div class="code-dots">
+                            <div class="dot red"></div>
+                            <div class="dot yellow"></div>
+                            <div class="dot green"></div>
+                        </div>
+                        <span>Java Implementation</span>
+                    </div>
+                    <pre><code><span class="keyword">class</span> <span class="function">Solution</span> {
+    <span class="keyword">public</span> <span class="keyword">int</span>[] <span class="function">twoSumSorted</span>(<span class="keyword">int</span>[] nums, <span class="keyword">int</span> target) {
+        <span class="keyword">int</span> left = <span class="number">0</span>;
+        <span class="keyword">int</span> right = nums.length - <span class="number">1</span>;
+        
+        <span class="keyword">while</span> (left &lt; right) {
+            <span class="keyword">int</span> sum = nums[left] + nums[right];
+            
+            <span class="keyword">if</span> (sum == target) {
+                <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[]{left, right};
+            } <span class="keyword">else if</span> (sum &lt; target) {
+                left++; <span class="comment">// Need larger sum</span>
+            } <span class="keyword">else</span> {
+                right--; <span class="comment">// Need smaller sum</span>
+            }
+        }
+        
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="keyword">int</span>[<span class="number">0</span>]; <span class="comment">// No solution found</span>
+    }
+}</code></pre>
+                </div>
+
+                <div class="complexity-box">
+                    <h4>⚡ Time & Space Complexity</h4>
+                    <p><strong>Hash Map Approach:</strong> Time O(n), Space O(n)</p>
+                    <p><strong>Two Pointers Approach:</strong> Time O(n), Space O(1)</p>
+                    <p><strong>Note:</strong> Two pointers requires sorted array, so if array isn't sorted, total time
+                        becomes O(n log n)</p>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Two Pointers Algorithm Steps</h2>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>Initialize Pointers</h4>
+                            <p>Set left pointer to start (index 0) and right pointer to end (index n-1) of the sorted
+                                array.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>Calculate Current Sum</h4>
+                            <p>Add the values at left and right pointers: sum = nums[left] + nums[right]</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>Compare with Target</h4>
+                            <p>If sum equals target, return indices. If sum is less than target, move left pointer
+                                right. If sum is greater, move right pointer left.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>Repeat Until Found</h4>
+                            <p>Continue until pointers meet or solution is found. The sorted property ensures we don't
+                                miss any valid pairs.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Interactive Demonstration</h2>
+                <div class="interactive-demo">
+                    <h3>Two Pointers in Action</h3>
+                    <p>Array: [2, 7, 11, 15] | Target: 9</p>
+
+                    <div class="demo-array" id="demoArray">
+                        <div class="array-element" data-index="0">2</div>
+                        <div class="array-element" data-index="1">7</div>
+                        <div class="array-element" data-index="2">11</div>
+                        <div class="array-element" data-index="3">15</div>
+                    </div>
+
+                    <div class="demo-controls">
+                        <button class="btn" onclick="startDemo()">Start Demo</button>
+                        <button class="btn" onclick="resetDemo()">Reset</button>
+                    </div>
+
+                    <div id="demoStatus">
+                        <p><strong>Status:</strong> Ready to start</p>
+                        <p><strong>Current Sum:</strong> -</p>
+                        <p><strong>Action:</strong> Click Start Demo</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Two Pointers Pattern Variations</h2>
+                <div class="patterns-grid">
+                    <div class="pattern-card">
+                        <h4>🎯 Opposite Direction</h4>
+                        <p><strong>Use Case:</strong> 2Sum, 3Sum, Container with Most Water</p>
+                        <p><strong>Pattern:</strong> Start from both ends, move pointers toward center based on
+                            conditions</p>
+                        <p><strong>Key Insight:</strong> Works great with sorted arrays for sum-based problems</p>
+                    </div>
+
+                    <div class="pattern-card">
+                        <h4>🏃‍♂️ Same Direction (Fast/Slow)</h4>
+                        <p><strong>Use Case:</strong> Remove duplicates, Move zeros, Floyd's cycle detection</p>
+                        <p><strong>Pattern:</strong> Both pointers start from same side, move at different speeds</p>
+                        <p><strong>Key Insight:</strong> Excellent for in-place array modifications</p>
+                    </div>
+
+                    <div class="pattern-card">
+                        <h4>🪟 Sliding Window</h4>
+                        <p><strong>Use Case:</strong> Subarray problems, String matching, Maximum sum subarray</p>
+                        <p><strong>Pattern:</strong> Expand window by moving right, contract by moving left</p>
+                        <p><strong>Key Insight:</strong> Maintains a window of elements that satisfy certain conditions
+                        </p>
+                    </div>
+
+                    <div class="pattern-card">
+                        <h4>🔗 Linked List Two Pointers</h4>
+                        <p><strong>Use Case:</strong> Detect cycles, Find middle node, Remove nth node</p>
+                        <p><strong>Pattern:</strong> Fast pointer moves 2 steps, slow moves 1 step</p>
+                        <p><strong>Key Insight:</strong> Leverages different speeds to solve complex linked list
+                            problems</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="section fade-in">
+                <h2>Practice Problems</h2>
+                <div class="algorithm-steps">
+                    <div class="step">
+                        <div class="step-number">1</div>
+                        <div>
+                            <h4>3Sum Problem</h4>
+                            <p>Find all unique triplets that sum to zero. Extends 2Sum with an additional outer loop.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">2</div>
+                        <div>
+                            <h4>Container With Most Water</h4>
+                            <p>Find two lines that form container holding the most water. Classic two pointers from
+                                opposite ends.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">3</div>
+                        <div>
+                            <h4>Remove Duplicates from Sorted Array</h4>
+                            <p>Remove duplicates in-place using slow/fast pointer technique.</p>
+                        </div>
+                    </div>
+                    <div class="step">
+                        <div class="step-number">4</div>
+                        <div>
+                            <h4>Palindrome Validation</h4>
+                            <p>Check if string is palindrome using two pointers from both ends moving inward.</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <script>
+        let demoState = {
+            left: 0,
+            right: 3,
+            array: [2, 7, 11, 15],
+            target: 9,
+            step: 0,
+            isRunning: false
+        };
+
+        function updateDemoDisplay() {
+            const elements = document.querySelectorAll('.array-element');
+            const status = document.getElementById('demoStatus');
+
+            // Reset all elements
+            elements.forEach(el => el.classList.remove('pointer'));
+
+            // Highlight current pointers
+            if (demoState.isRunning) {
+                elements[demoState.left].classList.add('pointer');
+                elements[demoState.right].classList.add('pointer');
+            }
+
+            const sum = demoState.array[demoState.left] + demoState.array[demoState.right];
+            let action = '';
+
+            if (sum === demoState.target) {
+                action = '🎉 Found solution!';
+            } else if (sum < demoState.target) {
+                action = 'Sum too small, move left pointer right →';
+            } else {
+                action = 'Sum too large, move right pointer left ←';
+            }
+
+            status.innerHTML = `
+                <p><strong>Status:</strong> Step ${demoState.step}</p>
+                <p><strong>Current Sum:</strong> ${demoState.array[demoState.left]} + ${demoState.array[demoState.right]} = ${sum}</p>
+                <p><strong>Action:</strong> ${action}</p>
+            `;
+        }
+
+        function startDemo() {
+            if (demoState.isRunning) return;
+
+            demoState.isRunning = true;
+            demoState.step = 1;
+            updateDemoDisplay();
+
+            const interval = setInterval(() => {
+                const sum = demoState.array[demoState.left] + demoState.array[demoState.right];
+
+                if (sum === demoState.target) {
+                    clearInterval(interval);
+                    demoState.isRunning = false;
+                    return;
+                }
+
+                if (sum < demoState.target) {
+                    demoState.left++;
+                } else {
+                    demoState.right--;
+                }
+
+                demoState.step++;
+                updateDemoDisplay();
+
+                if (demoState.left >= demoState.right) {
+                    clearInterval(interval);
+                    demoState.isRunning = false;
+                }
+            }, 1500);
+        }
+
+        function resetDemo() {
+            demoState = {
+                left: 0,
+                right: 3,
+                array: [2, 7, 11, 15],
+                target: 9,
+                step: 0,
+                isRunning: false
+            };
+
+            const elements = document.querySelectorAll('.array-element');
+            elements.forEach(el => el.classList.remove('pointer'));
+
+            document.getElementById('demoStatus').innerHTML = `
+                <p><strong>Status:</strong> Ready to start</p>
+                <p><strong>Current Sum:</strong> -</p>
+                <p><strong>Action:</strong> Click Start Demo</p>
+            `;
+        }
+
+        // Add scroll animations
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('fade-in');
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.section').forEach(section => {
+            observer.observe(section);
+        });
+    </script>
+</body>
+
+</html>
