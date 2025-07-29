@@ -1,0 +1,644 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>String Builder & String Buffer in Java</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts - Ubuntu -->
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Ubuntu', sans-serif;
+            font-size: 0.875rem;
+            /* Small font size */
+            line-height: 1.5;
+            color: #333;
+            background-color: #f4f7f6;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+
+        h1,
+        h2,
+        h3 {
+            font-family: 'Ubuntu', sans-serif;
+            color: #2c3e50;
+            font-weight: 700;
+        }
+
+        h1 {
+            font-size: 2.25rem;
+            /* text-4xl */
+            margin-bottom: 1.5rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            /* text-3xl */
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 0.5rem;
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            /* text-xl */
+            margin-top: 1.5rem;
+            margin-bottom: 0.75rem;
+            color: #2980b9;
+        }
+
+        code {
+            background-color: #e8f0f7;
+            /* Light blue background for code */
+            color: #c0392b;
+            /* Dark red for code text */
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.8rem;
+        }
+
+        pre {
+            background-color: #2d2d2d;
+            /* Dark background for code blocks */
+            color: #f8f8f2;
+            /* Light text for code blocks */
+            padding: 1rem;
+            border-radius: 0.5rem;
+            overflow-x: auto;
+            font-family: 'Fira Code', 'Cascadia Code', 'Consolas', monospace;
+            font-size: 0.85rem;
+            line-height: 1.4;
+            margin-bottom: 1.5rem;
+        }
+
+        pre code {
+            background-color: transparent;
+            color: inherit;
+            padding: 0;
+            border-radius: 0;
+        }
+
+        .java-keyword {
+            color: #8be9fd;
+        }
+
+        /* Cyan */
+        .java-type {
+            color: #50fa7b;
+        }
+
+        /* Green */
+        .java-string {
+            color: #f1fa8c;
+        }
+
+        /* Yellow */
+        .java-comment {
+            color: #6272a4;
+        }
+
+        /* Grayish blue */
+        .java-method {
+            color: #ff79c6;
+        }
+
+        /* Pink */
+        .java-number {
+            color: #bd93f9;
+        }
+
+        /* Purple */
+        .java-operator {
+            color: #ffb86c;
+        }
+
+        /* Orange */
+        .java-variable {
+            color: #f8f8f2;
+        }
+
+        /* White */
+        .java-class {
+            color: #ff79c6;
+        }
+
+        /* Pink */
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        th,
+        td {
+            border: 1px solid #ddd;
+            padding: 0.75rem;
+            text-align: left;
+        }
+
+        th {
+            background-color: #ecf0f1;
+            color: #2c3e50;
+            font-weight: 600;
+        }
+
+        td {
+            background-color: #ffffff;
+        }
+
+        .note {
+            background-color: #e0f2f7;
+            /* Light blue for notes */
+            border-left: 5px solid #3498db;
+            padding: 1rem;
+            margin-top: 1.5rem;
+            margin-bottom: 1.5rem;
+            border-radius: 0.25rem;
+        }
+
+        .advantage {
+            color: #27ae60;
+        }
+
+        /* Green */
+        .disadvantage {
+            color: #c0392b;
+        }
+
+        /* Red */
+    </style>
+</head>
+
+<body class="bg-gray-100 text-gray-800">
+    <div class="container bg-white shadow-lg rounded-lg my-8 p-8">
+        <h1 class="text-center text-blue-700 mb-6">String Builder and String Buffer in Java: A Comprehensive Guide</h1>
+
+        <section>
+            <p class="mb-4">
+                In Java, strings are fundamental for handling text data. While the <code>String</code> class is widely
+                used, it has a significant characteristic: it is <span class="font-bold text-red-600">immutable</span>.
+                This means once a <code>String</code> object is created, its content cannot be changed. Any operation
+                that appears to modify a <code>String</code>, such as concatenation, actually creates a new
+                <code>String</code> object.
+            </p>
+            <p class="mb-4">
+                This immutability can lead to performance issues and excessive memory consumption, especially when
+                dealing with frequent string manipulations (like appending characters in a loop). To address these
+                challenges, Java provides two mutable alternatives: <code>StringBuilder</code> and
+                <code>StringBuffer</code>. This document will explore both classes in depth, comparing their
+                functionalities, memory implications, and use cases.
+            </p>
+        </section>
+
+        <section>
+            <h2>Understanding Java Strings (Briefly)</h2>
+            <p class="mb-4">
+                Before diving into <code>StringBuilder</code> and <code>StringBuffer</code>, let's quickly recap why
+                <code>String</code>'s immutability is a concern for performance.
+            </p>
+            <pre><code class="language-java">
+<span class="java-comment">// Example: String concatenation creates new objects</span>
+<span class="java-type">String</span> <span class="java-variable">str</span> = <span class="java-string">"Hello"</span>;
+<span class="java-variable">str</span> = <span class="java-variable">str</span> + <span class="java-string">" World"</span>; <span class="java-comment">// This creates a new String object "Hello World"</span>
+<span class="java-comment">// The original "Hello" object might become eligible for garbage collection</span>
+
+<span class="java-comment">// In a loop, this is highly inefficient:</span>
+<span class="java-type">String</span> <span class="java-variable">result</span> = <span class="java-string">""</span>;
+<span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-number">1000</span>; <span class="java-variable">i</span>++) {
+    <span class="java-variable">result</span> += <span class="java-string">"a"</span>; <span class="java-comment">// 1000 new String objects are created!</span>
+}
+            </code></pre>
+            <p class="note">
+                <strong>Memory Implication:</strong> Each time a new <code>String</code> is created, a new memory
+                allocation occurs. For frequent modifications, this leads to a large number of short-lived objects,
+                increasing garbage collection overhead and negatively impacting performance.
+            </p>
+        </section>
+
+        <section>
+            <h2>StringBuilder in Java</h2>
+            <p class="mb-4">
+                The <code>StringBuilder</code> class was introduced in Java 5. It is a mutable sequence of characters,
+                designed to be used when a string needs to be modified multiple times in a single-threaded environment.
+            </p>
+
+            <h3>How StringBuilder Works in Memory</h3>
+            <p class="mb-4">
+                Unlike <code>String</code>, <code>StringBuilder</code> does not create a new object in memory for every
+                modification. Instead, it maintains an internal, dynamically-sized character array (or a similar
+                structure) that can grow as needed. When you append, insert, or delete characters,
+                <code>StringBuilder</code> modifies this internal array directly.
+            </p>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li><strong>Initial Capacity:</strong> A <code>StringBuilder</code> object is initialized with a default
+                    capacity (usually 16 characters, plus the length of the initial string if provided).</li>
+                <li><strong>Dynamic Resizing:</strong> If the content grows beyond its current capacity,
+                    <code>StringBuilder</code> automatically increases the size of its internal array. Typically, it
+                    doubles the current capacity plus two, or uses a similar growth strategy. This resizing involves
+                    creating a new, larger array and copying the existing contents, which is still more efficient than
+                    creating a new <code>String</code> object for every small change.</li>
+                <li><strong>Single Object:</strong> For a series of operations, only one <code>StringBuilder</code>
+                    object is maintained in memory, reducing garbage collection overhead.</li>
+            </ul>
+
+            <h3>Common StringBuilder Methods</h3>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li><code><span class="java-method">append</span>(<span class="java-type">String</span> str)</code>:
+                    Appends the string representation of the argument to the sequence.</li>
+                <li><code><span class="java-method">insert</span>(<span class="java-type">int</span> offset, <span class="java-type">String</span> str)</code>:
+                    Inserts the string representation of the argument into this sequence.</li>
+                <li><code><span class="java-method">delete</span>(<span class="java-type">int</span> start, <span class="java-type">int</span> end)</code>:
+                    Removes the characters in a substring of this sequence.</li>
+                <li><code><span class="java-method">reverse</span>()</code>: Reverses the sequence of characters.</li>
+                <li><code><span class="java-method">replace</span>(<span class="java-type">int</span> start, <span class="java-type">int</span> end, <span class="java-type">String</span> str)</code>:
+                    Replaces the characters in a substring with characters in the specified String.</li>
+                <li><code><span class="java-method">length</span>()</code>: Returns the length (number of characters) of
+                    the sequence.</li>
+                <li><code><span class="java-method">capacity</span>()</code>: Returns the current capacity.</li>
+                <li><code><span class="java-method">toString</span>()</code>: Converts the <code>StringBuilder</code>
+                    content to a <code>String</code> object. This is the only point where a new <code>String</code>
+                    object is created (when you need the final immutable string).</li>
+            </ul>
+
+            <h3>Advantages of StringBuilder</h3>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li class="advantage"><strong>Performance:</strong> Significantly faster than <code>String</code>
+                    concatenation for multiple modifications because it avoids creating numerous intermediate
+                    <code>String</code> objects.</li>
+                <li class="advantage"><strong>Memory Efficiency:</strong> Reduces memory footprint and garbage
+                    collection activity by modifying a single, mutable object.</li>
+                <li class="advantage"><strong>Flexibility:</strong> Provides a rich set of methods for various string
+                    manipulation tasks (append, insert, delete, reverse, replace).</li>
+            </ul>
+
+            <h3>Disadvantages of StringBuilder</h3>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li class="disadvantage"><strong>Not Thread-Safe:</strong> This is the primary disadvantage.
+                    <code>StringBuilder</code> methods are not synchronized, meaning if multiple threads try to modify
+                    the same <code>StringBuilder</code> instance concurrently, it can lead to data inconsistency and
+                    unpredictable behavior.</li>
+                <li class="disadvantage"><strong>Conversion Overhead:</strong> The final result must be converted to a
+                    <code>String</code> using <code>toString()</code>, which involves creating a new <code>String</code>
+                    object. This is a minor overhead compared to repeated <code>String</code> concatenations but still
+                    exists.</li>
+            </ul>
+
+            <h3>StringBuilder Example Code</h3>
+            <pre><code class="language-java">
+<span class="java-keyword">public class</span> <span class="java-class">StringBuilderExample</span> {
+    <span class="java-keyword">public static void</span> <span class="java-method">main</span>(<span class="java-type">String</span>[] <span class="java-variable">args</span>) {
+        <span class="java-comment">// 1. Basic Appending</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb1</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"Hello"</span>);
+        <span class="java-variable">sb1</span>.<span class="java-method">append</span>(<span class="java-string">" World"</span>);
+        <span class="java-variable">sb1</span>.<span class="java-method">append</span>(<span class="java-string">"!"</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After append: "</span> + <span class="java-variable">sb1</span>); <span class="java-comment">// Output: Hello World!</span>
+
+        <span class="java-comment">// 2. Inserting</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb2</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"Java is fun"</span>);
+        <span class="java-variable">sb2</span>.<span class="java-method">insert</span>(<span class="java-number">5</span>, <span class="java-string">"very "</span>); <span class="java-comment">// Insert "very " at index 5</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After insert: "</span> + <span class="java-variable">sb2</span>); <span class="java-comment">// Output: Java very is fun</span>
+
+        <span class="java-comment">// 3. Deleting</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb3</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"Programming is hard but rewarding"</span>);
+        <span class="java-variable">sb3</span>.<span class="java-method">delete</span>(<span class="java-number">14</span>, <span class="java-number">19</span>); <span class="java-comment">// Delete "hard "</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After delete: "</span> + <span class="java-variable">sb3</span>); <span class="java-comment">// Output: Programming is but rewarding</span>
+
+        <span class="java-comment">// 4. Reversing</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb4</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"madam"</span>);
+        <span class="java-variable">sb4</span>.<span class="java-method">reverse</span>();
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After reverse: "</span> + <span class="java-variable">sb4</span>); <span class="java-comment">// Output: madam</span>
+
+        <span class="java-comment">// 5. Replacing</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb5</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"The quick brown fox"</span>);
+        <span class="java-variable">sb5</span>.<span class="java-method">replace</span>(<span class="java-number">4</span>, <span class="java-number">9</span>, <span class="java-string">"slow"</span>); <span class="java-comment">// Replace "quick" with "slow"</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After replace: "</span> + <span class="java-variable">sb5</span>); <span class="java-comment">// Output: The slow brown fox</span>
+
+        <span class="java-comment">// 6. Chaining methods</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb6</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>();
+        <span class="java-variable">sb6</span>.<span class="java-method">append</span>(<span class="java-string">"One"</span>)
+           .<span class="java-method">append</span>(<span class="java-string">"Two"</span>)
+           .<span class="java-method">insert</span>(<span class="java-number">3</span>, <span class="java-string">" Three "</span>)
+           .<span class="java-method">delete</span>(<span class="java-number">0</span>, <span class="java-number">3</span>); <span class="java-comment">// Delete "One"</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Chained operations: "</span> + <span class="java-variable">sb6</span>); <span class="java-comment">// Output: ThreeTwo</span>
+
+        <span class="java-comment">// 7. Capacity and Length</span>
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb7</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-string">"Short"</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Length: "</span> + <span class="java-variable">sb7</span>.<span class="java-method">length</span>() + <span class="java-string">", Capacity: "</span> + <span class="java-variable">sb7</span>.<span class="java-method">capacity</span>());
+        <span class="java-comment">// Initial capacity: 16 + length of "Short" (5) = 21 (approx)
+        // Output: Length: 5, Capacity: 21 (or similar, depends on JVM)</span>
+
+        <span class="java-variable">sb7</span>.<span class="java-method">append</span>(<span class="java-string">" This is a much longer string to test capacity increase."</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"New Length: "</span> + <span class="java-variable">sb7</span>.<span class="java-method">length</span>() + <span class="java-string">", New Capacity: "</span> + <span class="java-variable">sb7</span>.<span class="java-method">capacity</span>());
+        <span class="java-comment">// Output: New Length: 55, New Capacity: 44 (21*2 + 2) or similar</span>
+    }
+}
+            </code></pre>
+
+            <h3>StringBuilder Test Cases and Solutions</h3>
+            <div class="mb-4">
+                <h4>Test Case 1: Building a large string efficiently</h4>
+                <p><strong>Problem:</strong> Concatenate numbers from 0 to 999 into a single string, separated by
+                    commas.</p>
+                <pre><code class="language-java">
+<span class="java-keyword">public class</span> <span class="java-class">StringBuilderTest1</span> {
+    <span class="java-keyword">public static void</span> <span class="java-method">main</span>(<span class="java-type">String</span>[] <span class="java-variable">args</span>) {
+        <span class="java-type">long</span> <span class="java-variable">startTime</span> = <span class="java-type">System</span>.<span class="java-method">nanoTime</span>();
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>();
+        <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-number">1000</span>; <span class="java-variable">i</span>++) {
+            <span class="java-variable">sb</span>.<span class="java-method">append</span>(<span class="java-variable">i</span>);
+            <span class="java-keyword">if</span> (<span class="java-variable">i</span> &lt; <span class="java-number">999</span>) {
+                <span class="java-variable">sb</span>.<span class="java-method">append</span>(<span class="java-string">","</span>);
+            }
+        }
+        <span class="java-type">String</span> <span class="java-variable">finalString</span> = <span class="java-variable">sb</span>.<span class="java-method">toString</span>();
+        <span class="java-type">long</span> <span class="java-variable">endTime</span> = <span class="java-type">System</span>.<span class="java-method">nanoTime</span>();
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Length of string: "</span> + <span class="java-variable">finalString</span>.<span class="java-method">length</span>());
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Time taken (StringBuilder): "</span> + (<span class="java-variable">endTime</span> - <span class="java-variable">startTime</span>) + <span class="java-string">" ns"</span>);
+        <span class="java-comment">// For comparison, using String concatenation:</span>
+        <span class="java-type">long</span> <span class="java-variable">startTimeStr</span> = <span class="java-type">System</span>.<span class="java-method">nanoTime</span>();
+        <span class="java-type">String</span> <span class="java-variable">strResult</span> = <span class="java-string">""</span>;
+        <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-number">1000</span>; <span class="java-variable">i</span>++) {
+            <span class="java-variable">strResult</span> += <span class="java-variable">i</span>;
+            <span class="java-keyword">if</span> (<span class="java-variable">i</span> &lt; <span class="java-number">999</span>) {
+                <span class="java-variable">strResult</span> += <span class="java-string">","</span>;
+            }
+        }
+        <span class="java-type">long</span> <span class="java-variable">endTimeStr</span> = <span class="java-type">System</span>.<span class="java-method">nanoTime</span>();
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Time taken (String): "</span> + (<span class="java-variable">endTimeStr</span> - <span class="java-variable">startTimeStr</span>) + <span class="java-string">" ns"</span>);
+    }
+}
+                </code></pre>
+                <p><strong>Solution Explanation:</strong> The <code>StringBuilder</code> approach will be orders of
+                    magnitude faster because it avoids creating 999 intermediate <code>String</code> objects. The time
+                    difference will be very noticeable for larger loops.</p>
+            </div>
+
+            <div class="mb-4">
+                <h4>Test Case 2: Palindrome Check</h4>
+                <p><strong>Problem:</strong> Check if a given string is a palindrome using <code>StringBuilder</code>'s
+                    <code>reverse()</code> method.</p>
+                <pre><code class="language-java">
+<span class="java-keyword">public class</span> <span class="java-class">StringBuilderTest2</span> {
+    <span class="java-keyword">public static boolean</span> <span class="java-method">isPalindrome</span>(<span class="java-type">String</span> <span class="java-variable">text</span>) {
+        <span class="java-type">StringBuilder</span> <span class="java-variable">sb</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuilder</span>(<span class="java-variable">text</span>);
+        <span class="java-variable">sb</span>.<span class="java-method">reverse</span>();
+        <span class="java-keyword">return</span> <span class="java-variable">text</span>.<span class="java-method">equals</span>(<span class="java-variable">sb</span>.<span class="java-method">toString</span>());
+    }
+
+    <span class="java-keyword">public static void</span> <span class="java-method">main</span>(<span class="java-type">String</span>[] <span class="java-variable">args</span>) {
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"madam is palindrome: "</span> + <span class="java-method">isPalindrome</span>(<span class="java-string">"madam"</span>)); <span class="java-comment">// true</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"hello is palindrome: "</span> + <span class="java-method">isPalindrome</span>(<span class="java-string">"hello"</span>)); <span class="java-comment">// false</span>
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"A man, a plan, a canal: Panama is palindrome: "</span> + <span class="java-method">isPalindrome</span>(<span class="java-string">"A man, a plan, a canal: Panama"</span>.<span class="java-method">replaceAll</span>(<span class="java-string">"[^a-zA-Z0-9]"</span>, <span class="java-string">""</span>).<span class="java-method">toLowerCase</span>())); <span class="java-comment">// true</span>
+    }
+}
+                </code></pre>
+                <p><strong>Solution Explanation:</strong> This demonstrates a practical use of <code>reverse()</code>.
+                    For the complex palindrome, we first clean the string (remove non-alphanumeric and convert to
+                    lowercase) to ensure a correct comparison.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>StringBuffer in Java</h2>
+            <p class="mb-4">
+                The <code>StringBuffer</code> class was introduced in Java 1.0. Like <code>StringBuilder</code>, it
+                represents a mutable sequence of characters. The key difference lies in its thread-safety.
+            </p>
+
+            <h3>How StringBuffer Works in Memory</h3>
+            <p class="mb-4">
+                <code>StringBuffer</code> also uses an internal, dynamically-sized character array for storage, similar
+                to <code>StringBuilder</code>. Modifications happen directly on this array, avoiding the creation of new
+                objects for each change.
+            </p>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li><strong>Synchronization:</strong> The crucial distinction is that all public methods of
+                    <code>StringBuffer</code> are <code>synchronized</code>. This means that at any given time, only one
+                    thread can execute a <code>StringBuffer</code> method on a particular instance.</li>
+                <li><strong>Overhead of Synchronization:</strong> This synchronization ensures data consistency in
+                    multi-threaded environments but comes with a performance cost. Acquiring and releasing locks for
+                    each method call adds overhead.</li>
+            </ul>
+
+            <h3>Common StringBuffer Methods</h3>
+            <p class="mb-4">
+                <code>StringBuffer</code> provides an identical set of methods to <code>StringBuilder</code>. The method
+                signatures and functionalities are the same; the internal implementation differs due to synchronization.
+            </p>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li><code><span class="java-method">append</span>(...)</code></li>
+                <li><code><span class="java-method">insert</span>(...)</code></li>
+                <li><code><span class="java-method">delete</span>(...)</code></li>
+                <li><code><span class="java-method">reverse</span>()</code></li>
+                <li><code><span class="java-method">replace</span>(...)</code></li>
+                <li><code><span class="java-method">length</span>()</code></li>
+                <li><code><span class="java-method">capacity</span>()</code></li>
+                <li><code><span class="java-method">toString</span>()</code></li>
+            </ul>
+
+            <h3>Advantages of StringBuffer</h3>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li class="advantage"><strong>Thread-Safe:</strong> This is its primary advantage. It is safe to use in
+                    multi-threaded environments where multiple threads might concurrently access and modify the same
+                    string buffer.</li>
+            </ul>
+
+            <h3>Disadvantages of StringBuffer</h3>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li class="disadvantage"><strong>Performance Overhead:</strong> Due to synchronization,
+                    <code>StringBuffer</code> is generally slower than <code>StringBuilder</code> in single-threaded
+                    environments. If thread-safety is not required, this overhead is unnecessary.</li>
+            </ul>
+
+            <h3>StringBuffer Example Code</h3>
+            <pre><code class="language-java">
+<span class="java-keyword">public class</span> <span class="java-class">StringBufferExample</span> {
+    <span class="java-keyword">public static void</span> <span class="java-method">main</span>(<span class="java-type">String</span>[] <span class="java-variable">args</span>) {
+        <span class="java-comment">// StringBuffer usage is identical to StringBuilder</span>
+        <span class="java-type">StringBuffer</span> <span class="java-variable">sbf</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuffer</span>(<span class="java-string">"Initial"</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Original: "</span> + <span class="java-variable">sbf</span>); <span class="java-comment">// Output: Initial</span>
+
+        <span class="java-variable">sbf</span>.<span class="java-method">append</span>(<span class="java-string">" String"</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After append: "</span> + <span class="java-variable">sbf</span>); <span class="java-comment">// Output: Initial String</span>
+
+        <span class="java-variable">sbf</span>.<span class="java-method">insert</span>(<span class="java-number">7</span>, <span class="java-string">" Modified"</span>);
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After insert: "</span> + <span class="java-variable">sbf</span>); <span class="java-comment">// Output: Initial Modified String</span>
+
+        <span class="java-variable">sbf</span>.<span class="java-method">reverse</span>();
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"After reverse: "</span> + <span class="java-variable">sbf</span>); <span class="java-comment">// Output: gnirtS deifidoM laitini</span>
+
+        <span class="java-comment">// Demonstrating thread-safety (conceptual, actual race condition needs multiple threads)</span>
+        <span class="java-comment">// In a real multi-threaded scenario, this would prevent data corruption.</span>
+        <span class="java-type">Runnable</span> <span class="java-variable">task</span> = () -> {
+            <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-number">5</span>; <span class="java-variable">i</span>++) {
+                <span class="java-variable">sbf</span>.<span class="java-method">append</span>(<span class="java-string">"X"</span>);
+                <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-type">Thread</span>.<span class="java-method">currentThread</span>().<span class="java-method">getName</span>() + <span class="java-string">": "</span> + <span class="java-variable">sbf</span>.<span class="java-method">length</span>());
+                <span class="java-keyword">try</span> {
+                    <span class="java-type">Thread</span>.<span class="java-method">sleep</span>(<span class="java-number">10</span>);
+                } <span class="java-keyword">catch</span> (<span class="java-type">InterruptedException</span> <span class="java-variable">e</span>) {
+                    <span class="java-variable">e</span>.<span class="java-method">printStackTrace</span>();
+                }
+            }
+        };
+
+        <span class="java-type">Thread</span> <span class="java-variable">t1</span> = <span class="java-keyword">new</span> <span class="java-type">Thread</span>(<span class="java-variable">task</span>, <span class="java-string">"Thread-1"</span>);
+        <span class="java-type">Thread</span> <span class="java-variable">t2</span> = <span class="java-keyword">new</span> <span class="java-type">Thread</span>(<span class="java-variable">task</span>, <span class="java-string">"Thread-2"</span>);
+
+        <span class="java-variable">t1</span>.<span class="java-method">start</span>();
+        <span class="java-variable">t2</span>.<span class="java-method">start</span>();
+
+        <span class="java-keyword">try</span> {
+            <span class="java-variable">t1</span>.<span class="java-method">join</span>();
+            <span class="java-variable">t2</span>.<span class="java-method">join</span>();
+        } <span class="java-keyword">catch</span> (<span class="java-type">InterruptedException</span> <span class="java-variable">e</span>) {
+            <span class="java-variable">e</span>.<span class="java-method">printStackTrace</span>();
+        }
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Final StringBuffer length: "</span> + <span class="java-variable">sbf</span>.<span class="java-method">length</span>());
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Final StringBuffer content: "</span> + <span class="java-variable">sbf</span>);
+    }
+}
+            </code></pre>
+
+            <h3>StringBuffer Test Cases and Solutions</h3>
+            <div class="mb-4">
+                <h4>Test Case 1: Thread-Safety Demonstration</h4>
+                <p><strong>Problem:</strong> Observe the behavior of <code>StringBuffer</code> when accessed by multiple
+                    threads concurrently.</p>
+                <pre><code class="language-java">
+<span class="java-keyword">public class</span> <span class="java-class">StringBufferTest1</span> {
+    <span class="java-keyword">public static void</span> <span class="java-method">main</span>(<span class="java-type">String</span>[] <span class="java-variable">args</span>) <span class="java-keyword">throws</span> <span class="java-type">InterruptedException</span> {
+        <span class="java-type">StringBuffer</span> <span class="java-variable">sharedBuffer</span> = <span class="java-keyword">new</span> <span class="java-type">StringBuffer</span>();
+        <span class="java-type">int</span> <span class="java-variable">numThreads</span> = <span class="java-number">10</span>;
+        <span class="java-type">Thread</span>[] <span class="java-variable">threads</span> = <span class="java-keyword">new</span> <span class="java-type">Thread</span>[<span class="java-variable">numThreads</span>];
+
+        <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-variable">numThreads</span>; <span class="java-variable">i</span>++) {
+            <span class="java-type">final int</span> <span class="java-variable">threadId</span> = <span class="java-variable">i</span>;
+            <span class="java-variable">threads</span>[<span class="java-variable">i</span>] = <span class="java-keyword">new</span> <span class="java-type">Thread</span>(() -> {
+                <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">j</span> = <span class="java-number">0</span>; <span class="java-variable">j</span> &lt; <span class="java-number">100</span>; <span class="java-variable">j</span>++) {
+                    <span class="java-variable">sharedBuffer</span>.<span class="java-method">append</span>(<span class="java-string">"A"</span>); <span class="java-comment">// Each thread appends 100 'A's</span>
+                }
+            });
+            <span class="java-variable">threads</span>[<span class="java-variable">i</span>].<span class="java-method">start</span>();
+        }
+
+        <span class="java-keyword">for</span> (<span class="java-type">int</span> <span class="java-variable">i</span> = <span class="java-number">0</span>; <span class="java-variable">i</span> &lt; <span class="java-variable">numThreads</span>; <span class="java-variable">i</span>++) {
+            <span class="java-variable">threads</span>[<span class="java-variable">i</span>].<span class="java-method">join</span>(); <span class="java-comment">// Wait for all threads to complete</span>
+        }
+
+        <span class="java-type">System</span>.<span class="java-method">out</span>.<span class="java-method">println</span>(<span class="java-string">"Final length of StringBuffer: "</span> + <span class="java-variable">sharedBuffer</span>.<span class="java-method">length</span>());
+        <span class="java-comment">// Expected output: Final length of StringBuffer: 1000 (10 threads * 100 appends)</span>
+        <span class="java-comment">// If StringBuilder were used here, the length might be less than 1000 due to race conditions.</span>
+    }
+}
+                </code></pre>
+                <p><strong>Solution Explanation:</strong> When you run this code, the final length of `sharedBuffer`
+                    will consistently be 1000. This demonstrates that even with multiple threads appending to the same
+                    `StringBuffer` instance, the internal state remains consistent and no data is lost due to race
+                    conditions, thanks to its synchronized methods.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Key Differences: StringBuilder vs. StringBuffer</h2>
+            <p class="mb-4">
+                The following table summarizes the main distinctions between <code>StringBuilder</code> and
+                <code>StringBuffer</code>:
+            </p>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>StringBuilder</th>
+                        <th>StringBuffer</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Thread-Safety</strong></td>
+                        <td class="disadvantage">Not thread-safe</td>
+                        <td class="advantage">Thread-safe (synchronized methods)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Performance</strong></td>
+                        <td class="advantage">Faster (no synchronization overhead)</td>
+                        <td class="disadvantage">Slower (due to synchronization overhead)</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Introduced In</strong></td>
+                        <td>Java 5</td>
+                        <td>Java 1.0</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Use Case</strong></td>
+                        <td>Single-threaded environment</td>
+                        <td>Multi-threaded environment</td>
+                    </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section>
+            <h2>When to Use Which?</h2>
+            <ul class="list-disc list-inside mb-4 pl-4">
+                <li><strong>Use <code>StringBuilder</code>:</strong>
+                    <ul class="list-circle list-inside ml-6">
+                        <li>When you are performing string manipulations in a <span class="font-bold">single-threaded
+                                environment</span>.</li>
+                        <li>When performance is a critical concern and thread-safety is not required.</li>
+                        <li>This is the most common choice for general-purpose string building.</li>
+                    </ul>
+                </li>
+                <li><strong>Use <code>StringBuffer</code>:</strong>
+                    <ul class="list-circle list-inside ml-6">
+                        <li>When you are performing string manipulations in a <span class="font-bold">multi-threaded
+                                environment</span>.</li>
+                        <li>When multiple threads might access and modify the same string object concurrently, and you
+                            need to ensure data consistency.</li>
+                        <li>The performance overhead is acceptable for the benefit of thread-safety.</li>
+                    </ul>
+                </li>
+                <li><strong>Avoid excessive <code>String</code> concatenation:</strong>
+                    <ul class="list-circle list-inside ml-6">
+                        <li>For simple, few concatenations (e.g., <code>"Hello" + name + "!"</code>), the Java compiler
+                            often optimizes this into <code>StringBuilder</code> operations behind the scenes (compiler
+                            optimization).</li>
+                        <li>However, for complex loops or many repeated modifications, explicitly using
+                            <code>StringBuilder</code> or <code>StringBuffer</code> is always recommended.</li>
+                    </ul>
+                </li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Conclusion</h2>
+            <p class="mb-4">
+                <code>StringBuilder</code> and <code>StringBuffer</code> are essential classes in Java for efficient and
+                mutable string manipulation. While <code>String</code> objects are immutable and lead to performance
+                bottlenecks with frequent modifications, these two classes provide a solution by allowing direct
+                modification of their internal character sequences.
+            </p>
+            <p class="mb-4">
+                The choice between <code>StringBuilder</code> and <code>StringBuffer</code> boils down to the
+                application's concurrency requirements. For single-threaded applications, <code>StringBuilder</code> is
+                the preferred choice due to its superior performance. For multi-threaded applications where data
+                integrity is paramount, <code>StringBuffer</code>'s thread-safe nature makes it the necessary option,
+                despite the slight performance penalty. Understanding their differences and appropriate use cases is
+                crucial for writing efficient and robust Java code.
+            </p>
+        </section>
+    </div>
+</body>
+
+</html>

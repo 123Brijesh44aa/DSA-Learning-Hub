@@ -41,6 +41,34 @@ const topics = [
         "contributorName": "Brijesh Mourya",
         "contributorGithub": "123Brijesh44aa",
         "owner": true
+    },
+
+    {
+        "title": "Binary Search Algorithm",
+        "description": "Learn the Binary Search Algorithm to efficiently find an element in a sorted array. Understand how it reduces the search space by half in each step, achieving O(log n) time complexity.",
+        "difficulty": "easy",
+        "date": "2025-07-26",
+        "completed": false,
+        "filename": "problems\\binary_search.html",
+        "icon": " ",
+        "tags": ["algorithms", "searching", "sorted arrays", "divide and conquer"],
+        "contributorName": "Brijesh Mourya",
+        "contributorGithub": "123Brijesh44aa",
+        "owner": true
+    },
+
+    {
+        "title": "String Builder and String Buffer in Java",
+        "description": "Explore Java's StringBuilder and StringBuffer classes, understanding their mutability, how they optimize string manipulations compared to immutable Strings, their memory implications, and crucial differences in thread-safety and performance.",
+        "difficulty": "medium",
+        "date": "2025-07-29",
+        "completed": true,
+        "filename": "problems\\stringBuffer_stringBuilder.html",
+        "icon": " ",
+        "tags": ["Java", "String", "StringBuilder", "StringBuffer", "mutability", "thread-safety", "performance", "memory", "core Java"],
+        "contributorName": "Brijesh Mourya",
+        "contributorGithub": "123Brijesh44aa",
+        "owner": true
     }
 
 
