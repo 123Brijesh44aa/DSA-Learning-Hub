@@ -69,6 +69,36 @@ const topics = [
         "contributorName": "Brijesh Mourya",
         "contributorGithub": "123Brijesh44aa",
         "owner": true
+    },
+
+    {
+        "title": "Remove All Occurrences of a Key in Singly Linked List",
+        "description": "Master the technique of removing all nodes with a specific value from a singly linked list using the two-pointer approach. Learn how to handle edge cases like removing leading nodes, managing memory in different languages, and understanding the algorithm's O(n) time complexity with O(1) space efficiency.",
+        "difficulty": "medium",
+        "date": "2025-08-18",
+        "completed": true,
+        "filename": "problems\\linked_list_removal_diagram.html",
+        "icon": "🔗",
+        "tags": [
+            "Linked List",
+            "Two Pointers",
+            "Data Structures",
+            "Algorithm",
+            "Java",
+            "C++",
+            "Python",
+            "JavaScript",
+            "Kotlin",
+            "Go",
+            "Rust",
+            "Memory Management",
+            "Edge Cases",
+            "LeetCode",
+            "Interview Prep"
+        ],
+        "contributorName": "Brijesh Mourya",
+        "contributorGithub": "123Brijesh44aa",
+        "owner": true,
     }
 
 

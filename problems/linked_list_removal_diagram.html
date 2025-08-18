@@ -1,0 +1,1098 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Remove Elements from Linked List - Visual Dry Run</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 10px;
+            font-size: 2.5em;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #7f8c8d;
+            margin-bottom: 30px;
+            font-size: 1.2em;
+        }
+
+        .step {
+            margin: 30px 0;
+            padding: 25px;
+            border: 2px solid #e8f4fd;
+            border-radius: 12px;
+            background: linear-gradient(145deg, #f8fbff, #ffffff);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+        }
+
+        .step:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+        }
+
+        .step-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2980b9;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+
+        .linked-list {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .node {
+            display: flex;
+            align-items: center;
+            background: #3498db;
+            color: white;
+            padding: 12px 18px;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 1.2em;
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .node.highlight {
+            background: #e74c3c;
+            animation: pulse 1.5s infinite;
+            transform: scale(1.1);
+        }
+
+        .node.removing {
+            background: #e67e22;
+            opacity: 0.7;
+            text-decoration: line-through;
+        }
+
+        .node.pointer-highlight {
+            background: #27ae60;
+            transform: scale(1.05);
+        }
+
+        .arrow {
+            font-size: 1.5em;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .pointer {
+            background: #27ae60;
+            color: white;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 0.9em;
+            margin: 10px 5px;
+            display: inline-block;
+            font-weight: bold;
+            box-shadow: 0 3px 6px rgba(39, 174, 96, 0.3);
+        }
+
+        .code-section {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 20px;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            margin: 20px 0;
+            overflow-x: auto;
+            border-left: 4px solid #3498db;
+        }
+
+        .highlight-line {
+            background: #34495e;
+            padding: 3px 8px;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+
+        .explanation {
+            background: #f8f9fa;
+            border-left: 4px solid #28a745;
+            padding: 15px 20px;
+            margin: 15px 0;
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+            color: #495057;
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3); }
+            50% { box-shadow: 0 4px 20px rgba(231, 76, 60, 0.6); }
+            100% { box-shadow: 0 4px 8px rgba(231, 76, 60, 0.3); }
+        }
+
+        .variables {
+            background: #fff3cd;
+            border: 1px solid #ffeaa7;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 15px 0;
+        }
+
+        .var-item {
+            margin: 5px 0;
+            font-family: monospace;
+            font-weight: bold;
+        }
+
+        .null-pointer {
+            color: #95a5a6;
+            font-style: italic;
+        }
+
+        .final-result {
+            background: linear-gradient(135deg, #00b894, #00cec9);
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            text-align: center;
+            margin-top: 30px;
+            font-size: 1.3em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Remove Elements from Linked List</h1>
+        <p class="subtitle">Visual Dry Run: Removing all occurrences of value 6 from [1, 6, 3, 4, 5, 6]</p>
+
+        <div class="step">
+            <div class="step-title">Initial Setup</div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node highlight">6</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node highlight">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="variables">
+                <div class="var-item">val = 6 (target value to remove)</div>
+                <div class="var-item">head = points to node with value 1</div>
+            </div>
+            <div class="explanation">
+                We want to remove all nodes with value 6 from the linked list.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Phase 1: Handle Leading Nodes</div>
+            <div class="code-section">
+                <div class="highlight-line">while(head != null && head.val == val) {</div>
+                <div class="highlight-line">    head = head.next;</div>
+                <div class="highlight-line">}</div>
+            </div>
+            <div class="linked-list">
+                <div class="node pointer-highlight">1</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="variables">
+                <div class="var-item">head.val = 1 ≠ 6, so loop doesn't execute</div>
+                <div class="var-item">head = still points to node with value 1</div>
+            </div>
+            <div class="explanation">
+                Check if the first node needs to be removed. Since head.val (1) ≠ val (6), we don't enter the loop.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Phase 2: Initialize Traversal Pointers</div>
+            <div class="code-section">
+                <div class="highlight-line">ListNode temp = head;</div>
+                <div class="highlight-line">ListNode prev = null;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node pointer-highlight">1</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp = points to node with value 1</div>
+                <div class="var-item">prev = null</div>
+            </div>
+            <div class="explanation">
+                Initialize two pointers: temp (current node) and prev (previous node).
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 1: temp at node 1</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 1 == 6? No</div>
+                <div>    prev.next = temp.next;</div>
+                <div>} else {</div>
+                <div class="highlight-line">    prev = temp; // Execute this</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node pointer-highlight">6</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="pointer">prev</div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 1 ≠ 6, so go to else branch</div>
+                <div class="var-item">prev = temp (now points to node 1)</div>
+                <div class="var-item">temp = temp.next (now points to node 6)</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 2: temp at node 6 (REMOVE)</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 6 == 6? Yes!</div>
+                <div class="highlight-line">    prev.next = temp.next; // Skip this node</div>
+                <div>} else {</div>
+                <div>    prev = temp;</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node removing">6</div>
+                <span class="arrow" style="opacity: 0.3;">→</span>
+                <div class="node pointer-highlight">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="node">1</div>
+                <span class="arrow" style="color: #e74c3c; font-weight: bold;">→</span>
+                <div class="node">3</div>
+                <span style="color: #27ae60; font-size: 0.9em;">(new connection)</span>
+            </div>
+            <div class="pointer">prev</div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 6 == 6, so execute if branch</div>
+                <div class="var-item">prev.next = temp.next (node 1 now points to node 3)</div>
+                <div class="var-item">prev = unchanged (still points to node 1)</div>
+                <div class="var-item">temp = temp.next (now points to node 3)</div>
+            </div>
+            <div class="explanation">
+                Found a node to remove! We skip it by making prev.next point to temp.next.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 3: temp at node 3</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 3 == 6? No</div>
+                <div>    prev.next = temp.next;</div>
+                <div>} else {</div>
+                <div class="highlight-line">    prev = temp; // Execute this</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node pointer-highlight">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="pointer" style="margin-left: 140px;">prev</div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 3 ≠ 6, so go to else branch</div>
+                <div class="var-item">prev = temp (now points to node 3)</div>
+                <div class="var-item">temp = temp.next (now points to node 4)</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 4: temp at node 4</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 4 == 6? No</div>
+                <div>    prev.next = temp.next;</div>
+                <div>} else {</div>
+                <div class="highlight-line">    prev = temp; // Execute this</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node pointer-highlight">5</div>
+                <span class="arrow">→</span>
+                <div class="node">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="pointer" style="margin-left: 210px;">prev</div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 4 ≠ 6, so go to else branch</div>
+                <div class="var-item">prev = temp (now points to node 4)</div>
+                <div class="var-item">temp = temp.next (now points to node 5)</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 5: temp at node 5</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 5 == 6? No</div>
+                <div>    prev.next = temp.next;</div>
+                <div>} else {</div>
+                <div class="highlight-line">    prev = temp; // Execute this</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node pointer-highlight">6</div>
+                <span class="arrow">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div class="pointer" style="margin-left: 280px;">prev</div>
+            <div class="pointer">temp</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 5 ≠ 6, so go to else branch</div>
+                <div class="var-item">prev = temp (now points to node 5)</div>
+                <div class="var-item">temp = temp.next (now points to node 6)</div>
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Iteration 6: temp at node 6 (REMOVE)</div>
+            <div class="code-section">
+                <div class="highlight-line">if(temp.val == val) { // 6 == 6? Yes!</div>
+                <div class="highlight-line">    prev.next = temp.next; // Point to null</div>
+                <div>} else {</div>
+                <div>    prev = temp;</div>
+                <div>}</div>
+                <div class="highlight-line">temp = temp.next;</div>
+            </div>
+            <div class="linked-list">
+                <div class="node">1</div>
+                <span class="arrow">→</span>
+                <div class="node">3</div>
+                <span class="arrow">→</span>
+                <div class="node">4</div>
+                <span class="arrow">→</span>
+                <div class="node">5</div>
+                <span class="arrow">→</span>
+                <div class="node removing">6</div>
+                <span class="arrow" style="opacity: 0.3;">→</span>
+                <span class="null-pointer">null</span>
+            </div>
+            <div style="margin-top: 10px;">
+                <div class="node">5</div>
+                <span class="arrow" style="color: #e74c3c; font-weight: bold;">→</span>
+                <span class="null-pointer">null</span>
+                <span style="color: #27ae60; font-size: 0.9em;">(new connection)</span>
+            </div>
+            <div class="pointer" style="margin-left: 280px;">prev</div>
+            <div class="pointer">temp = null</div>
+            <div class="variables">
+                <div class="var-item">temp.val = 6 == 6, so execute if branch</div>
+                <div class="var-item">prev.next = temp.next (node 5 now points to null)</div>
+                <div class="var-item">prev = unchanged (still points to node 5)</div>
+                <div class="var-item">temp = temp.next (now null)</div>
+            </div>
+            <div class="explanation">
+                Found the second node to remove! Node 5 now points to null, ending the list.
+            </div>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Loop Termination</div>
+            <div class="code-section">
+                <div class="highlight-line">while(temp != null) { // null != null? False</div>
+                <div>    // Loop exits</div>
+                <div>}</div>
+                <div class="highlight-line">return head;</div>
+            </div>
+            <div class="variables">
+                <div class="var-item">temp = null, so loop condition is false</div>
+                <div class="var-item">Exit the while loop</div>
+                <div class="var-item">Return head (points to node 1)</div>
+            </div>
+            <div class="explanation">
+                Since temp is null, we exit the loop and return the modified list.
+            </div>
+        </div>
+
+        <div class="final-result">
+            <div class="step-title" style="color: white; border-bottom: 2px solid white;">Final Result</div>
+            <div class="linked-list">
+                <div class="node" style="background: white; color: #00b894;">1</div>
+                <span class="arrow" style="color: white;">→</span>
+                <div class="node" style="background: white; color: #00b894;">3</div>
+                <span class="arrow" style="color: white;">→</span>
+                <div class="node" style="background: white; color: #00b894;">4</div>
+                <span class="arrow" style="color: white;">→</span>
+                <div class="node" style="background: white; color: #00b894;">5</div>
+                <span class="arrow" style="color: white;">→</span>
+                <span class="null-pointer" style="color: white;">null</span>
+            </div>
+            <p style="margin-top: 20px;">Successfully removed all nodes with value 6!</p>
+            <p>Original: [1, 6, 3, 4, 5, 6] → Final: [1, 3, 4, 5]</p>
+        </div>
+
+        <div class="step">
+            <div class="step-title">Complete Code Implementation in Multiple Languages</div>
+            
+            <!-- Language Tab Navigation -->
+            <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                <button class="lang-tab active" onclick="showLanguage('java')">Java</button>
+                <button class="lang-tab" onclick="showLanguage('cpp')">C++</button>
+                <button class="lang-tab" onclick="showLanguage('c')">C</button>
+                <button class="lang-tab" onclick="showLanguage('python')">Python</button>
+                <button class="lang-tab" onclick="showLanguage('kotlin')">Kotlin</button>
+                <button class="lang-tab" onclick="showLanguage('javascript')">JavaScript</button>
+                <button class="lang-tab" onclick="showLanguage('go')">Go</button>
+                <button class="lang-tab" onclick="showLanguage('rust')">Rust</button>
+            </div>
+
+            <!-- Java Code -->
+            <div class="code-container" id="java">
+                <div class="lang-header">☕ Java Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */</span>
+<span class="keyword">class</span> <span class="type">Solution</span> {
+    <span class="comment">// Remove all nodes with target value from linked list
+    // Time: O(n), Space: O(1)</span>
+    <span class="keyword">public</span> <span class="type">ListNode</span> <span class="function">removeElements</span>(<span class="type">ListNode</span> head, <span class="keyword">int</span> val) {
+        <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+        <span class="keyword">while</span> (head != <span class="keyword">null</span> && head.val == val) {
+            head = head.next;
+        }
+        
+        <span class="comment">// Phase 2: Handle remaining nodes with two pointers</span>
+        <span class="type">ListNode</span> current = head;
+        <span class="type">ListNode</span> prev = <span class="keyword">null</span>;
+        
+        <span class="keyword">while</span> (current != <span class="keyword">null</span>) {
+            <span class="keyword">if</span> (current.val == val) {
+                prev.next = current.next; <span class="comment">// Skip current node</span>
+            } <span class="keyword">else</span> {
+                prev = current; <span class="comment">// Move prev forward</span>
+            }
+            current = current.next;
+        }
+        
+        <span class="keyword">return</span> head;
+    }
+}</pre>
+                </div>
+            </div>
+
+            <!-- C++ Code -->
+            <div class="code-container" id="cpp" style="display: none;">
+                <div class="lang-header">⚡ C++ Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */</span>
+<span class="keyword">class</span> <span class="type">Solution</span> {
+<span class="keyword">public</span>:
+    <span class="comment">// Remove all nodes with target value from linked list
+    // Time: O(n), Space: O(1)</span>
+    <span class="type">ListNode</span>* <span class="function">removeElements</span>(<span class="type">ListNode</span>* head, <span class="keyword">int</span> val) {
+        <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+        <span class="keyword">while</span> (head != <span class="keyword">nullptr</span> && head->val == val) {
+            <span class="type">ListNode</span>* temp = head;
+            head = head->next;
+            <span class="keyword">delete</span> temp; <span class="comment">// Free memory in C++</span>
+        }
+        
+        <span class="comment">// Phase 2: Handle remaining nodes</span>
+        <span class="type">ListNode</span>* current = head;
+        <span class="type">ListNode</span>* prev = <span class="keyword">nullptr</span>;
+        
+        <span class="keyword">while</span> (current != <span class="keyword">nullptr</span>) {
+            <span class="keyword">if</span> (current->val == val) {
+                prev->next = current->next;
+                <span class="keyword">delete</span> current; <span class="comment">// Free memory</span>
+                current = prev->next;
+            } <span class="keyword">else</span> {
+                prev = current;
+                current = current->next;
+            }
+        }
+        
+        <span class="keyword">return</span> head;
+    }
+};</pre>
+                </div>
+            </div>
+
+            <!-- C Code -->
+            <div class="code-container" id="c" style="display: none;">
+                <div class="lang-header">🔧 C Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     struct ListNode *next;
+ * };
+ */</span>
+<span class="comment">// Remove all nodes with target value from linked list
+// Time: O(n), Space: O(1)</span>
+<span class="keyword">struct</span> <span class="type">ListNode</span>* <span class="function">removeElements</span>(<span class="keyword">struct</span> <span class="type">ListNode</span>* head, <span class="keyword">int</span> val) {
+    <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+    <span class="keyword">while</span> (head != <span class="string">NULL</span> && head->val == val) {
+        <span class="keyword">struct</span> <span class="type">ListNode</span>* temp = head;
+        head = head->next;
+        <span class="function">free</span>(temp); <span class="comment">// Free memory in C</span>
+    }
+    
+    <span class="comment">// Phase 2: Handle remaining nodes</span>
+    <span class="keyword">struct</span> <span class="type">ListNode</span>* current = head;
+    <span class="keyword">struct</span> <span class="type">ListNode</span>* prev = <span class="string">NULL</span>;
+    
+    <span class="keyword">while</span> (current != <span class="string">NULL</span>) {
+        <span class="keyword">if</span> (current->val == val) {
+            prev->next = current->next;
+            <span class="function">free</span>(current); <span class="comment">// Free memory</span>
+            current = prev->next;
+        } <span class="keyword">else</span> {
+            prev = current;
+            current = current->next;
+        }
+    }
+    
+    <span class="keyword">return</span> head;
+}</pre>
+                </div>
+            </div>
+
+            <!-- Python Code -->
+            <div class="code-container" id="python" style="display: none;">
+                <div class="lang-header">🐍 Python Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment"># Definition for singly-linked list.
+# class ListNode:
+#     def __init__(self, val=0, next=None):
+#         self.val = val
+#         self.next = next</span>
+
+<span class="keyword">class</span> <span class="type">Solution</span>:
+    <span class="keyword">def</span> <span class="function">removeElements</span>(<span class="keyword">self</span>, head: <span class="type">Optional</span>[<span class="type">ListNode</span>], val: <span class="keyword">int</span>) -> <span class="type">Optional</span>[<span class="type">ListNode</span>]:
+        <span class="comment">"""
+        Remove all nodes with target value from linked list
+        Time: O(n), Space: O(1)
+        """</span>
+        <span class="comment"># Phase 1: Handle leading nodes to remove</span>
+        <span class="keyword">while</span> head <span class="keyword">and</span> head.val == val:
+            head = head.<span class="keyword">next</span>
+        
+        <span class="comment"># Phase 2: Handle remaining nodes</span>
+        current = head
+        prev = <span class="keyword">None</span>
+        
+        <span class="keyword">while</span> current:
+            <span class="keyword">if</span> current.val == val:
+                prev.<span class="keyword">next</span> = current.<span class="keyword">next</span>  <span class="comment"># Skip current node</span>
+            <span class="keyword">else</span>:
+                prev = current  <span class="comment"># Move prev forward</span>
+            current = current.<span class="keyword">next</span>
+        
+        <span class="keyword">return</span> head
+
+<span class="comment"># Alternative Pythonic approach using recursion</span>
+<span class="keyword">class</span> <span class="type">SolutionRecursive</span>:
+    <span class="keyword">def</span> <span class="function">removeElements</span>(<span class="keyword">self</span>, head: <span class="type">Optional</span>[<span class="type">ListNode</span>], val: <span class="keyword">int</span>) -> <span class="type">Optional</span>[<span class="type">ListNode</span>]:
+        <span class="keyword">if</span> <span class="keyword">not</span> head:
+            <span class="keyword">return</span> <span class="keyword">None</span>
+        
+        head.<span class="keyword">next</span> = <span class="keyword">self</span>.removeElements(head.<span class="keyword">next</span>, val)
+        <span class="keyword">return</span> head.<span class="keyword">next</span> <span class="keyword">if</span> head.val == val <span class="keyword">else</span> head</pre>
+                </div>
+            </div>
+
+            <!-- Kotlin Code -->
+            <div class="code-container" id="kotlin" style="display: none;">
+                <div class="lang-header">🎯 Kotlin Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Example:
+ * var li = ListNode(5)
+ * var v = li.`val`
+ * Definition for singly-linked list.
+ * class ListNode(var `val`: Int) {
+ *     var next: ListNode? = null
+ * }
+ */</span>
+<span class="keyword">class</span> <span class="type">Solution</span> {
+    <span class="comment">// Remove all nodes with target value from linked list
+    // Time: O(n), Space: O(1)</span>
+    <span class="keyword">fun</span> <span class="function">removeElements</span>(head: <span class="type">ListNode</span>?, <span class="keyword">val</span>: <span class="type">Int</span>): <span class="type">ListNode</span>? {
+        <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+        <span class="keyword">var</span> currentHead = head
+        <span class="keyword">while</span> (currentHead != <span class="keyword">null</span> && currentHead.`<span class="keyword">val</span>` == <span class="keyword">val</span>) {
+            currentHead = currentHead.next
+        }
+        
+        <span class="comment">// Phase 2: Handle remaining nodes</span>
+        <span class="keyword">var</span> current = currentHead
+        <span class="keyword">var</span> prev: <span class="type">ListNode</span>? = <span class="keyword">null</span>
+        
+        <span class="keyword">while</span> (current != <span class="keyword">null</span>) {
+            <span class="keyword">if</span> (current.`<span class="keyword">val</span>` == <span class="keyword">val</span>) {
+                prev?.next = current.next <span class="comment">// Skip current node</span>
+            } <span class="keyword">else</span> {
+                prev = current <span class="comment">// Move prev forward</span>
+            }
+            current = current.next
+        }
+        
+        <span class="keyword">return</span> currentHead
+    }
+}
+
+<span class="comment">// Extension function approach (more Kotlin-like)</span>
+<span class="keyword">fun</span> <span class="type">ListNode</span>?.<span class="function">removeElements</span>(<span class="keyword">val</span>: <span class="type">Int</span>): <span class="type">ListNode</span>? {
+    <span class="keyword">return</span> <span class="keyword">when</span> {
+        <span class="keyword">this</span> == <span class="keyword">null</span> -> <span class="keyword">null</span>
+        <span class="keyword">this</span>.`<span class="keyword">val</span>` == <span class="keyword">val</span> -> next.removeElements(<span class="keyword">val</span>)
+        <span class="keyword">else</span> -> {
+            next = next.removeElements(<span class="keyword">val</span>)
+            <span class="keyword">this</span>
+        }
+    }
+}</pre>
+                </div>
+            </div>
+
+            <!-- JavaScript Code -->
+            <div class="code-container" id="javascript" style="display: none;">
+                <div class="lang-header">🌟 JavaScript Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Definition for singly-linked list.
+ * function ListNode(val, next) {
+ *     this.val = (val===undefined ? 0 : val)
+ *     this.next = (next===undefined ? null : next)
+ * }
+ */</span>
+
+<span class="comment">/**
+ * Remove all nodes with target value from linked list
+ * Time: O(n), Space: O(1)
+ * @param {ListNode} head
+ * @param {number} val
+ * @return {ListNode}
+ */</span>
+<span class="keyword">var</span> <span class="function">removeElements</span> = <span class="keyword">function</span>(head, val) {
+    <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+    <span class="keyword">while</span> (head !== <span class="keyword">null</span> && head.val === val) {
+        head = head.next;
+    }
+    
+    <span class="comment">// Phase 2: Handle remaining nodes</span>
+    <span class="keyword">let</span> current = head;
+    <span class="keyword">let</span> prev = <span class="keyword">null</span>;
+    
+    <span class="keyword">while</span> (current !== <span class="keyword">null</span>) {
+        <span class="keyword">if</span> (current.val === val) {
+            prev.next = current.next; <span class="comment">// Skip current node</span>
+        } <span class="keyword">else</span> {
+            prev = current; <span class="comment">// Move prev forward</span>
+        }
+        current = current.next;
+    }
+    
+    <span class="keyword">return</span> head;
+};
+
+<span class="comment">// ES6 Arrow Function Version</span>
+<span class="keyword">const</span> <span class="function">removeElementsES6</span> = (head, val) => {
+    <span class="comment">// Handle leading removals</span>
+    <span class="keyword">while</span> (head?.val === val) head = head.next;
+    
+    <span class="comment">// Handle remaining nodes</span>
+    <span class="keyword">let</span> [current, prev] = [head, <span class="keyword">null</span>];
+    <span class="keyword">while</span> (current) {
+        current.val === val ? prev.next = current.next : prev = current;
+        current = current.next;
+    }
+    <span class="keyword">return</span> head;
+};</pre>
+                </div>
+            </div>
+
+            <!-- Go Code -->
+            <div class="code-container" id="go" style="display: none;">
+                <div class="lang-header">🚀 Go Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">/**
+ * Definition for singly-linked list.
+ * type ListNode struct {
+ *     Val int
+ *     Next *ListNode
+ * }
+ */</span>
+
+<span class="comment">// Remove all nodes with target value from linked list
+// Time: O(n), Space: O(1)</span>
+<span class="keyword">func</span> <span class="function">removeElements</span>(head *<span class="type">ListNode</span>, val <span class="keyword">int</span>) *<span class="type">ListNode</span> {
+    <span class="comment">// Phase 1: Handle leading nodes to remove</span>
+    <span class="keyword">for</span> head != <span class="keyword">nil</span> && head.Val == val {
+        head = head.Next
+    }
+    
+    <span class="comment">// Phase 2: Handle remaining nodes</span>
+    current := head
+    <span class="keyword">var</span> prev *<span class="type">ListNode</span>
+    
+    <span class="keyword">for</span> current != <span class="keyword">nil</span> {
+        <span class="keyword">if</span> current.Val == val {
+            prev.Next = current.Next <span class="comment">// Skip current node</span>
+        } <span class="keyword">else</span> {
+            prev = current <span class="comment">// Move prev forward</span>
+        }
+        current = current.Next
+    }
+    
+    <span class="keyword">return</span> head
+}
+
+<span class="comment">// Alternative recursive approach</span>
+<span class="keyword">func</span> <span class="function">removeElementsRecursive</span>(head *<span class="type">ListNode</span>, val <span class="keyword">int</span>) *<span class="type">ListNode</span> {
+    <span class="keyword">if</span> head == <span class="keyword">nil</span> {
+        <span class="keyword">return</span> <span class="keyword">nil</span>
+    }
+    
+    head.Next = removeElementsRecursive(head.Next, val)
+    
+    <span class="keyword">if</span> head.Val == val {
+        <span class="keyword">return</span> head.Next
+    }
+    <span class="keyword">return</span> head
+}</pre>
+                </div>
+            </div>
+
+            <!-- Rust Code -->
+            <div class="code-container" id="rust" style="display: none;">
+                <div class="lang-header">🦀 Rust Implementation</div>
+                <div class="xbox-code">
+<pre><span class="comment">// Definition for singly-linked list.
+// #[derive(PartialEq, Eq, Clone, Debug)]
+// pub struct ListNode {
+//   pub val: i32,
+//   pub next: Option<Box<ListNode>>
+// }
+// 
+// impl ListNode {
+//   #[inline]
+//   fn new(val: i32) -> Self {
+//     ListNode {
+//       next: None,
+//       val
+//     }
+//   }
+// }</span>
+
+<span class="keyword">impl</span> <span class="type">Solution</span> {
+    <span class="comment">// Remove all nodes with target value from linked list
+    // Time: O(n), Space: O(1)</span>
+    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="function">remove_elements</span>(head: <span class="type">Option</span>&lt;<span class="type">Box</span>&lt;<span class="type">ListNode</span>&gt;&gt;, val: <span class="keyword">i32</span>) -> <span class="type">Option</span>&lt;<span class="type">Box</span>&lt;<span class="type">ListNode</span>&gt;&gt; {
+        <span class="comment">// Handle leading nodes to remove</span>
+        <span class="keyword">let</span> <span class="keyword">mut</span> head = head;
+        <span class="keyword">while</span> <span class="keyword">let</span> <span class="type">Some</span>(node) = head {
+            <span class="keyword">if</span> node.val == val {
+                head = node.next;
+            } <span class="keyword">else</span> {
+                <span class="keyword">break</span>;
+            }
+        }
+        
+        <span class="comment">// Handle remaining nodes</span>
+        <span class="keyword">if</span> <span class="keyword">let</span> <span class="type">Some</span>(<span class="keyword">ref</span> <span class="keyword">mut</span> node) = head {
+            node.next = <span class="type">Self</span>::remove_elements(node.next.take(), val);
+        }
+        
+        head
+    }
+    
+    <span class="comment">// Alternative iterative approach</span>
+    <span class="keyword">pub</span> <span class="keyword">fn</span> <span class="function">remove_elements_iterative</span>(head: <span class="type">Option</span>&lt;<span class="type">Box</span>&lt;<span class="type">ListNode</span>&gt;&gt;, val: <span class="keyword">i32</span>) -> <span class="type">Option</span>&lt;<span class="type">Box</span>&lt;<span class="type">ListNode</span>&gt;&gt; {
+        <span class="keyword">let</span> <span class="keyword">mut</span> dummy = <span class="type">Box</span>::new(<span class="type">ListNode</span>::new(<span class="number">0</span>));
+        dummy.next = head;
+        <span class="keyword">let</span> <span class="keyword">mut</span> prev = &amp;<span class="keyword">mut</span> dummy;
+        
+        <span class="keyword">while</span> <span class="keyword">let</span> <span class="type">Some</span>(<span class="keyword">ref</span> <span class="keyword">mut</span> current) = prev.next {
+            <span class="keyword">if</span> current.val == val {
+                prev.next = current.next.take();
+            } <span class="keyword">else</span> {
+                prev = prev.next.as_mut().unwrap();
+            }
+        }
+        
+        dummy.next
+    }
+}</pre>
+                </div>
+            </div>
+
+            <style>
+                .lang-tab {
+                    background: linear-gradient(135deg, #107C10, #0F7B0F);
+                    color: white;
+                    border: none;
+                    padding: 10px 20px;
+                    border-radius: 8px;
+                    cursor: pointer;
+                    font-weight: bold;
+                    font-size: 0.9em;
+                    transition: all 0.3s ease;
+                    box-shadow: 0 4px 8px rgba(16, 124, 16, 0.3);
+                }
+
+                .lang-tab:hover {
+                    background: linear-gradient(135deg, #138313, #0D6B0D);
+                    transform: translateY(-2px);
+                    box-shadow: 0 6px 12px rgba(16, 124, 16, 0.4);
+                }
+
+                .lang-tab.active {
+                    background: linear-gradient(135deg, #FF6B35, #F7931E);
+                    box-shadow: 0 6px 12px rgba(255, 107, 53, 0.4);
+                }
+
+                .code-container {
+                    transition: all 0.3s ease;
+                }
+
+                .lang-header {
+                    background: linear-gradient(135deg, #107C10, #0F7B0F);
+                    color: white;
+                    padding: 12px 20px;
+                    border-radius: 8px 8px 0 0;
+                    font-weight: bold;
+                    font-size: 1.1em;
+                    text-align: center;
+                }
+
+                .xbox-code {
+                    background: #f8f8f8;
+                    color: #000000;
+                    border: 2px solid #107C10;
+                    border-top: none;
+                    border-radius: 0 0 8px 8px;
+                    font-size: 0.9em;
+                    line-height: 1.6;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+                    font-family: 'SF Mono', 'Monaco', 'Inconsolata', 'Roboto Mono', 'Source Code Pro', monospace;
+                    font-weight: 600;
+                    padding: 20px;
+                    overflow-x: auto;
+                }
+
+                .xbox-code pre {
+                    margin: 0;
+                    white-space: pre-wrap;
+                }
+
+                .comment {
+                    color: #008000;
+                    font-style: italic;
+                    font-weight: 500;
+                }
+
+                .keyword {
+                    color: #0000FF;
+                    font-weight: 700;
+                }
+
+                .type {
+                    color: #2B91AF;
+                    font-weight: 600;
+                }
+
+                .function {
+                    color: #795E26;
+                    font-weight: 600;
+                }
+
+                .string {
+                    color: #A31515;
+                    font-weight: 500;
+                }
+
+                .number {
+                    color: #098658;
+                    font-weight: 600;
+                }
+
+                @media (max-width: 768px) {
+                    .lang-tab {
+                        padding: 8px 12px;
+                        font-size: 0.8em;
+                    }
+                }
+            </style>
+
+            <script>
+                function showLanguage(lang) {
+                    // Hide all code containers
+                    const containers = document.querySelectorAll('.code-container');
+                    containers.forEach(container => {
+                        container.style.display = 'none';
+                    });
+
+                    // Remove active class from all tabs
+                    const tabs = document.querySelectorAll('.lang-tab');
+                    tabs.forEach(tab => {
+                        tab.classList.remove('active');
+                    });
+
+                    // Show selected language and mark tab as active
+                    document.getElementById(lang).style.display = 'block';
+                    event.target.classList.add('active');
+                }
+            </script>
+
+            <div style="margin-top: 30px; padding: 20px; background: linear-gradient(135deg, #667eea, #764ba2); border-radius: 12px; color: white;">
+                <h3 style="margin: 0 0 15px 0; color: white;">🎯 Algorithm Summary Across All Languages</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 15px; margin-top: 15px;">
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>⏱️ Time Complexity:</strong> O(n)<br>
+                        <small>Visit each node exactly once</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>💾 Space Complexity:</strong> O(1)<br>
+                        <small>Only use constant extra space</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>🔧 Technique:</strong> Two Pointers<br>
+                        <small>prev and current traversal</small>
+                    </div>
+                    <div style="background: rgba(255,255,255,0.1); padding: 15px; border-radius: 8px;">
+                        <strong>✅ Edge Cases:</strong> All Handled<br>
+                        <small>Empty, all removed, none removed</small>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px; padding: 15px; background: rgba(255,255,255,0.1); border-radius: 8px;">
+                    <strong>🌟 Key Insights:</strong>
+                    <ul style="margin: 10px 0;">
+                        <li><strong>Two-Phase Approach:</strong> Handle leading removals separately, then use two pointers for the rest</li>
+                        <li><strong>Memory Management:</strong> C/C++ explicitly free memory, others use garbage collection</li>
+                        <li><strong>Language Features:</strong> Each language leverages its strengths (Rust's ownership, Python's simplicity, etc.)</li>
+                        <li><strong>Alternative Approaches:</strong> Recursive solutions provided for functional programming fans</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
