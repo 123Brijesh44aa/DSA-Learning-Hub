@@ -99,6 +99,20 @@ const topics = [
         "contributorName": "Brijesh Mourya",
         "contributorGithub": "123Brijesh44aa",
         "owner": true,
+    },
+
+    {
+        "title": "Java Assignment 1",
+        "description": "Java Assignment 1",
+        "difficulty": "Easy",
+        "date": "2025-11-13",
+        "completed": true,
+        "filename": "problems\\java_assignment_1.html",
+        "icon": " ",
+        "tags": ["Java", "Inheritance","Abstraction","Encapsulation","Polymorphism"],
+        "contributorName": "Anonymous",
+        "contributorGithub": "anonymous",
+        "owner": true
     }
 
 

@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Java Assignment 1</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #f5f5f5;
+            min-height: 100vh;
+            padding: 2rem;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 3rem 2rem;
+            color: white;
+            text-align: center;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            font-size: 1rem;
+            font-weight: 300;
+            opacity: 0.95;
+        }
+
+        .questions-list {
+            padding: 2rem;
+        }
+
+        .question-item {
+            margin-bottom: 3rem;
+            border-bottom: 1px solid #e2e8f0;
+            padding-bottom: 2rem;
+        }
+
+        .question-item:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+        }
+
+        .question-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .question-number {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .question-title {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: #2d3748;
+        }
+
+        .concept-tag {
+            background: #edf2f7;
+            color: #667eea;
+            padding: 0.3rem 0.8rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            margin-left: auto;
+        }
+
+        .description {
+            color: #4a5568;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+            font-size: 0.95rem;
+        }
+
+        .code-block {
+            background: #2b2b2b;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        }
+
+        .code-header {
+            background: #1e1e1e;
+            padding: 0.6rem 1rem;
+            border-bottom: 1px solid #3a3a3a;
+            color: #9da5b4;
+            font-size: 0.8rem;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        pre {
+            margin: 0;
+            padding: 1.5rem;
+            overflow-x: auto;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #a9b7c6;
+        }
+
+        /* IntelliJ-like syntax highlighting */
+        .keyword {
+            color: #cc7832;
+            font-weight: 500;
+        }
+
+        .class-name {
+            color: #ffc66d;
+        }
+
+        .method {
+            color: #ffc66d;
+        }
+
+        .string {
+            color: #6a8759;
+        }
+
+        .comment {
+            color: #808080;
+            font-style: italic;
+        }
+
+        .annotation {
+            color: #bbb529;
+        }
+
+        .type {
+            color: #ffc66d;
+        }
+
+        .package {
+            color: #cc7832;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            .questions-list {
+                padding: 1rem;
+            }
+
+            .question-header {
+                flex-wrap: wrap;
+            }
+
+            .concept-tag {
+                margin-left: 0;
+            }
+
+            pre {
+                font-size: 0.8rem;
+                padding: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <h1>Java Assignment 1</h1>
+        <p class="subtitle">Object-Oriented Programming Concepts</p>
+    </header>
+
+    <div class="questions-list">
+        <!-- Question 1 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 1</span>
+                <h2 class="question-title">Animal.java</h2>
+                <span class="concept-tag">Method Overriding & Super</span>
+            </div>
+            <p class="description">Demonstrates method overriding where Dog class overrides the makeSound() method and calls parent's implementation using super keyword.</p>
+            <div class="code-block">
+                <div class="code-header">Animal.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Animal</span> {
+
+    <span class="keyword">void</span> <span class="method">makeSound</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"animal sound"</span>);
+    }
+
+}
+
+<span class="keyword">class</span> <span class="class-name">Dog</span> <span class="keyword">extends</span> <span class="class-name">Animal</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="method">makeSound</span>() {
+        <span class="keyword">super</span>.makeSound();
+    }
+
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 2 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 2</span>
+                <h2 class="question-title">Building.java</h2>
+                <span class="concept-tag">Constructor Overloading</span>
+            </div>
+            <p class="description">Shows constructor overloading and how child class (House) calls parent class (Building) constructors using super().</p>
+            <div class="code-block">
+                <div class="code-header">Building.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Building</span> {
+
+    <span class="keyword">int</span> age;
+    <span class="type">String</span> name;
+
+    <span class="keyword">public</span> <span class="method">Building</span>(<span class="keyword">int</span> age, <span class="type">String</span> name) {
+        <span class="keyword">this</span>.age = age;
+        <span class="keyword">this</span>.name = name;
+    }
+
+    <span class="keyword">public</span> <span class="method">Building</span>(<span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.age = age;
+        <span class="keyword">this</span>.name = <span class="string">"Brijesh"</span>;
+    }
+}
+
+<span class="keyword">class</span> <span class="class-name">House</span> <span class="keyword">extends</span> <span class="class-name">Building</span> {
+
+    <span class="keyword">int</span> address;
+
+    <span class="keyword">public</span> <span class="method">House</span>(<span class="keyword">int</span> age, <span class="type">String</span> name, <span class="keyword">int</span> address) {
+        <span class="keyword">super</span>(age, name);
+        <span class="keyword">this</span>.address = address;
+    }
+
+    <span class="keyword">public</span> <span class="method">House</span>(<span class="keyword">int</span> age) {
+        <span class="keyword">super</span>(age);
+        <span class="keyword">this</span>.address = address;
+    }
+
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 3 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 3</span>
+                <h2 class="question-title">Chain.java</h2>
+                <span class="concept-tag">Method Chaining</span>
+            </div>
+            <p class="description">Implements method chaining pattern by returning 'this' from each method, allowing calls like obj.step1().step2().step3().</p>
+            <div class="code-block">
+                <div class="code-header">Chain.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Chain</span> {
+
+    <span class="class-name">Chain</span> <span class="method">step1</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"one"</span>);
+        <span class="keyword">return this</span>;
+    }
+
+    <span class="class-name">Chain</span> <span class="method">step2</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"two"</span>);
+        <span class="keyword">return this</span>;
+    }
+
+    <span class="class-name">Chain</span> <span class="method">step3</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"three"</span>);
+        <span class="keyword">return this</span>;
+    }
+
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 4 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 4</span>
+                <h2 class="question-title">Human.java</h2>
+                <span class="concept-tag">Inheritance & Constructors</span>
+            </div>
+            <p class="description">Demonstrates constructor overloading with default values and inheritance where Student extends Human.</p>
+            <div class="code-block">
+                <div class="code-header">Human.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Human</span> {
+
+    <span class="type">String</span> name;
+    <span class="type">String</span> address;
+    <span class="keyword">int</span> age;
+
+    <span class="keyword">public</span> <span class="method">Human</span>(<span class="type">String</span> name, <span class="type">String</span> address, <span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.address = address;
+        <span class="keyword">this</span>.age = age;
+    }
+
+    <span class="keyword">public</span> <span class="method">Human</span>(<span class="type">String</span> name) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.address = <span class="string">"jaipur"</span>;
+        <span class="keyword">this</span>.age = 21;
+    }
+}
+
+<span class="keyword">class</span> <span class="class-name">Student</span> <span class="keyword">extends</span> <span class="class-name">Human</span> {
+
+    <span class="keyword">int</span> rollno;
+
+    <span class="keyword">public</span> <span class="method">Student</span>(<span class="type">String</span> name, <span class="type">String</span> address, <span class="keyword">int</span> age, <span class="keyword">int</span> rollno) {
+        <span class="keyword">super</span>(name, address, age);
+        <span class="keyword">this</span>.rollno = rollno;
+    }
+
+    <span class="keyword">public</span> <span class="method">Student</span>(<span class="type">String</span> name, <span class="keyword">int</span> rollno) {
+        <span class="keyword">super</span>(name);
+        <span class="keyword">this</span>.rollno = rollno;
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 5 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 5</span>
+                <h2 class="question-title">Outer.java</h2>
+                <span class="concept-tag">Inner Classes</span>
+            </div>
+            <p class="description">Shows inner class implementation and how to access outer class members using Outer.this syntax.</p>
+            <div class="code-block">
+                <div class="code-header">Outer.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Outer</span> {
+
+    <span class="type">String</span> name = <span class="string">"Brijesh Mourya"</span>;
+
+    <span class="keyword">void</span> <span class="method">show</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"name is : "</span> + name);
+    }
+
+    <span class="keyword">class</span> <span class="class-name">Inner</span> {
+
+        <span class="keyword">void</span> <span class="method">display</span>() {
+            <span class="type">System</span>.out.println(<span class="class-name">Outer</span>.<span class="keyword">this</span>.name);
+            <span class="class-name">Outer</span>.<span class="keyword">this</span>.show();
+        }
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 6 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 6</span>
+                <h2 class="question-title">Parent.java</h2>
+                <span class="concept-tag">Method Overriding & Super</span>
+            </div>
+            <p class="description">Demonstrates inheritance, constructor chaining, method overriding, and the use of 'this' and 'super' keywords.</p>
+            <div class="code-block">
+                <div class="code-header">Parent.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Parent</span> {
+
+    <span class="keyword">void</span> <span class="method">display</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"parent display"</span>);
+    }
+
+    <span class="keyword">public</span> <span class="method">Parent</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"this is parent class constructor"</span>);
+    }
+}
+
+<span class="keyword">class</span> <span class="class-name">Child</span> <span class="keyword">extends</span> <span class="class-name">Parent</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="method">display</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"child display"</span>);
+    }
+
+    <span class="method">Child</span>() {
+        <span class="keyword">super</span>();
+        <span class="type">System</span>.out.println(<span class="string">"child class constructor"</span>);
+    }
+
+    <span class="keyword">void</span> <span class="method">show</span>() {
+        <span class="keyword">this</span>.display();
+        <span class="keyword">super</span>.display();
+    }
+
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 7 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 7</span>
+                <h2 class="question-title">Person.java</h2>
+                <span class="concept-tag">Field Shadowing</span>
+            </div>
+            <p class="description">Shows field shadowing where Employee class has its own age and name fields that shadow the parent's fields.</p>
+            <div class="code-block">
+                <div class="code-header">Person.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Person</span> {
+
+    <span class="keyword">int</span> age;
+    <span class="type">String</span> name;
+
+    <span class="keyword">public</span> <span class="method">Person</span>(<span class="keyword">int</span> age, <span class="type">String</span> name) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+    }
+}
+
+<span class="keyword">class</span> <span class="class-name">Employee</span> <span class="keyword">extends</span> <span class="class-name">Person</span> {
+
+    <span class="keyword">int</span> age;
+    <span class="type">String</span> name;
+    <span class="keyword">double</span> salary;
+
+    <span class="keyword">public</span> <span class="method">Employee</span>(<span class="keyword">int</span> age, <span class="type">String</span> name, <span class="keyword">double</span> salary) {
+        <span class="keyword">super</span>(age, name);
+        <span class="keyword">this</span>.salary = salary;
+    }
+
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 8 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 8</span>
+                <h2 class="question-title">Rectangle.java</h2>
+                <span class="concept-tag">Constructor Chaining</span>
+            </div>
+            <p class="description">Demonstrates constructor chaining within the same class using this() to call another constructor with default values.</p>
+            <div class="code-block">
+                <div class="code-header">Rectangle.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Rectangle</span> {
+
+    <span class="keyword">double</span> width;
+    <span class="keyword">double</span> height;
+
+    <span class="keyword">public</span> <span class="method">Rectangle</span>(<span class="keyword">int</span> width, <span class="keyword">int</span> height) {
+        <span class="keyword">this</span>.width = width;
+        <span class="keyword">this</span>.height = height;
+    }
+
+    <span class="keyword">public</span> <span class="method">Rectangle</span>(<span class="keyword">int</span> width) {
+        <span class="keyword">this</span>(width, 11);
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 9 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 9</span>
+                <h2 class="question-title">Student2.java</h2>
+                <span class="concept-tag">Basic Class Structure</span>
+            </div>
+            <p class="description">Basic class structure with instance variables and a parameterized constructor using 'this' keyword.</p>
+            <div class="code-block">
+                <div class="code-header">Student2.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Student2</span> {
+
+    <span class="type">String</span> name;
+    <span class="keyword">int</span> age;
+
+    <span class="keyword">public</span> <span class="method">Student2</span>(<span class="type">String</span> name, <span class="keyword">int</span> age) {
+        <span class="keyword">this</span>.name = name;
+        <span class="keyword">this</span>.age = age;
+    }
+}</code></pre>
+            </div>
+        </div>
+
+        <!-- Question 10 -->
+        <div class="question-item">
+            <div class="question-header">
+                <span class="question-number">Question 10</span>
+                <h2 class="question-title">Vehicle.java</h2>
+                <span class="concept-tag">Method Overriding</span>
+            </div>
+            <p class="description">Simple example of method overriding where Car overrides Vehicle's move() method and calls the parent implementation.</p>
+            <div class="code-block">
+                <div class="code-header">Vehicle.java</div>
+                <pre><code><span class="keyword">package</span> javaassignment;
+
+<span class="keyword">public class</span> <span class="class-name">Vehicle</span> {
+
+    <span class="keyword">void</span> <span class="method">move</span>() {
+        <span class="type">System</span>.out.println(<span class="string">"move"</span>);
+    }
+
+}
+
+<span class="keyword">class</span> <span class="class-name">Car</span> <span class="keyword">extends</span> <span class="class-name">Vehicle</span> {
+
+    <span class="annotation">@Override</span>
+    <span class="keyword">void</span> <span class="method">move</span>() {
+        <span class="keyword">super</span>.move();
+    }
+}</code></pre>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
