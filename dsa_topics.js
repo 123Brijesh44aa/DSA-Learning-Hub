@@ -113,6 +113,20 @@ const topics = [
         "contributorName": "Anonymous",
         "contributorGithub": "anonymous",
         "owner": true
+    },
+
+    {
+        "title": "Java OOPS Lab Coding Question(11)",
+        "description": "Java OOPs Lab Coding Questions",
+        "difficulty": "Easy",
+        "date": "2025-11-13",
+        "completed": true,
+        "filename": "problems\\java_coding_questions_oops_lab.html",
+        "icon": " ",
+        "tags": ["Java"],
+        "contributorName": "Anonymous",
+        "contributorGithub": "anonymous",
+        "owner": true
     }
 
 

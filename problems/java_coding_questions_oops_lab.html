@@ -1,0 +1,802 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>11 Java Coding Questions : OOPS LAB</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+            href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&family=Roboto+Mono:wght@400;700&display=swap"
+            rel="stylesheet">
+    <style>
+        /* CSS for a beautiful, responsive, IntelliJ-like theme */
+
+        :root {
+            /* IntelliJ IDEA Dracula/Dark Theme Colors */
+            --background-color: #2b2b2b;
+            --main-text-color: #a9b7c6;
+            --accent-color: #8cd1ff;
+            /* Blue for links/titles/buttons */
+            --secondary-accent: #6a8759;
+            /* Green for strings */
+            --keyword-color: #cc7832;
+            /* Orange for keywords */
+            --comment-color: #808080;
+            /* Gray for comments */
+            --background-hover: #3c3f41;
+            --code-bg-color: #212121;
+            --border-color: #45494a;
+        }
+
+        body {
+            font-family: 'Roboto Mono', monospace;
+            background-color: var(--background-color);
+            color: var(--main-text-color);
+            margin: 0;
+            padding: 0;
+            line-height: 1.6;
+        }
+
+        header {
+            background-color: var(--code-bg-color);
+            color: var(--accent-color);
+            padding: 20px 5%;
+            text-align: center;
+            border-bottom: 2px solid var(--border-color);
+        }
+
+        header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .container {
+            display: flex;
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 10px;
+        }
+
+        /* Question List (Left Panel) */
+        .question-list-panel {
+            flex: 0 0 300px;
+            /* Fixed width for desktop */
+            padding-right: 20px;
+            border-right: 1px solid var(--border-color);
+            overflow-y: auto;
+            /* Allows scrolling if too many items */
+        }
+
+        .question-list-panel h2 {
+            margin-top: 0;
+            color: var(--accent-color);
+            font-size: 1.2em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .question-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .question-list li {
+            margin-bottom: 5px;
+        }
+
+        .question-button {
+            width: 100%;
+            padding: 10px 15px;
+            text-align: left;
+            border: none;
+            background-color: transparent;
+            color: var(--main-text-color);
+            cursor: pointer;
+            font-family: 'Roboto Mono', monospace;
+            font-size: 0.9em;
+            transition: background-color 0.2s, color 0.2s;
+            border-radius: 4px;
+        }
+
+        .question-button:hover {
+            background-color: var(--background-hover);
+        }
+
+        .question-button.active {
+            background-color: var(--accent-color);
+            color: var(--background-color);
+            font-weight: bold;
+        }
+
+        /* Content Panel (Right Panel) */
+        .content-panel {
+            flex-grow: 1;
+            padding-left: 20px;
+        }
+
+        .content-panel h2 {
+            color: var(--accent-color);
+            font-size: 1.5em;
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 10px;
+        }
+
+        .problem-description p {
+            background-color: var(--background-hover);
+            padding: 15px;
+            border-left: 3px solid var(--keyword-color);
+            margin-bottom: 20px;
+            color: var(--main-text-color);
+            white-space: pre-wrap;
+            /* Ensure long description text wraps */
+        }
+
+        /* Code Block Styling (IntelliJ Look) */
+        .code-block {
+            background-color: var(--code-bg-color);
+            padding: 15px;
+            border-radius: 6px;
+            overflow-x: auto;
+            /* Important for responsiveness - keeps code from stretching the page */
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85em;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            white-space: pre;
+            /* Preserve code formatting */
+        }
+
+        .code-block pre {
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Syntax Highlighting */
+        .keyword {
+            color: var(--keyword-color);
+            font-weight: 700;
+        }
+
+        .type {
+            color: var(--accent-color);
+        }
+
+        .string {
+            color: var(--secondary-accent);
+        }
+
+        .comment {
+            color: var(--comment-color);
+        }
+
+        .literal {
+            color: #6897bb;
+            /* Blueish for literals */
+        }
+
+        .method {
+            color: #ffc66d;
+            /* Yellowish for methods */
+        }
+
+        .class-name {
+            color: #a9b7c6;
+            /* Same as main text for class names */
+            font-weight: 700;
+        }
+
+        /* Mobile Responsiveness */
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .question-list-panel {
+                flex: none;
+                width: 100%;
+                padding-right: 0;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                margin-bottom: 20px;
+                /* Limit height on mobile for scrollable list */
+                max-height: 40vh;
+            }
+
+            .question-list-panel h2 {
+                text-align: center;
+                padding-bottom: 5px;
+            }
+
+            .content-panel {
+                padding-left: 0;
+            }
+
+            .question-button {
+                font-size: 1em;
+            }
+
+            .code-block {
+                font-size: 0.8em;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<header>
+    <h1>&#x1F4BB; 11 Java Coding Questions : OOPS LAB</h1>
+</header>
+
+<div class="container">
+    <div class="question-list-panel">
+        <h2>&#x1F4DC; Questions (11/11)</h2>
+        <ul class="question-list" id="question-list">
+        </ul>
+    </div>
+
+    <div class="content-panel">
+        <h2 id="question-title">Select a Question from the Left</h2>
+        <div class="problem-description">
+            <h3>&#x1F4DD; Problem Description</h3>
+            <p id="problem-text">Please click on any question button on the left to view the problem description and
+                the solution code.</p>
+        </div>
+        <h3>&#x1F4D6; Java Solution Code</h3>
+        <div class="code-block" id="code-block">
+            <pre id="java-code-content">// The Java code will appear here with IntelliJ formatting.</pre>
+        </div>
+    </div>
+</div>
+
+<script>
+    // JavaScript for handling the question data and interaction
+
+    const questionsData = [{
+        title: "1. Merge Two Sorted Arrays",
+        description: "Write a Java program to merge two sorted arrays of integers into a single sorted array. The resulting array should also be sorted and contain all elements from both input arrays.",
+        fileName: "MergeTwoSortedArr.java",
+        code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">import</span> java.<span class="method">util</span>.Arrays;
+
+<span class="keyword">public</span> <span class="class-name">class</span> MergeTwoSortedArr {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] <span class="method">mergeTwoSortedArr</span>(<span class="type">int</span>[] a, <span class="type">int</span>[] b) {
+        <span class="keyword">if</span> (a == <span class="literal">null</span> || a.<span class="method">length</span> == <span class="literal">0</span>) {
+            <span class="keyword">return</span> b;
+        }
+        <span class="keyword">if</span> (b == <span class="literal">null</span> || b.<span class="method">length</span> == <span class="literal">0</span>) {
+            <span class="keyword">return</span> a;
+        }
+        <span class="type">int</span> i = <span class="literal">0</span>;
+        <span class="type">int</span> j = <span class="literal">0</span>;
+        <span class="type">int</span> k = <span class="literal">0</span>;
+        <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="type">int</span>[a.<span class="method">length</span> + b.<span class="method">length</span>];
+        <span class="keyword">while</span> (i < a.<span class="method">length</span> && j < b.<span class="method">length</span>) {
+            <span class="keyword">if</span> (a[i] <= b[j]) {
+                res[k++] = a[i++];
+            } <span class="keyword">else</span> {
+                res[k++] = b[j++];
+            }
+        }
+
+        <span class="keyword">while</span> (i < a.<span class="method">length</span>) {
+            res[k++] = a[i++];
+        }
+
+        <span class="keyword">while</span> (j < b.<span class="method">length</span>) {
+            res[k++] = b[j++];
+        }
+
+        <span class="keyword">return</span> res;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        <span class="type">int</span>[] a = { <span class="literal">1</span>, <span class="literal">2</span>, <span class="literal">3</span>, <span class="literal">4</span>, <span class="literal">5</span> };
+        <span class="type">int</span>[] b = { <span class="literal">6</span>, <span class="literal">7</span>, <span class="literal">8</span>, <span class="literal">9</span>, <span class="literal">10</span> };
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"single sorted array is : "</span> + Arrays.<span class="method">toString</span>(<span class="method">mergeTwoSortedArr</span>(a, b)));
+    }
+}
+`
+    },
+        {
+            title: "2. Check for Duplicates in Array",
+            description: "Write a Java program to determine if an array of integers contains any duplicate elements. The program should return `true` if any value appears at least twice, and `false` otherwise.",
+            fileName: "Dups.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> Dups {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="method">isContainsDups</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.<span class="method">length</span>;
+        <span class="keyword">if</span> (arr == <span class="literal">null</span> || n == <span class="literal">0</span>) {
+            <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="literal">0</span>; i < n; i++) {
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="literal">0</span>; j < n; j++) {
+                <span class="keyword">if</span> (i == j) {
+                    <span class="keyword">continue</span>;
+                }
+                <span class="keyword">if</span> (arr[i] == arr[j]) {
+                    <span class="keyword">return</span> <span class="literal">true</span>;
+                }
+            }
+        }
+        <span class="keyword">return</span> <span class="literal">false</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        <span class="type">int</span>[] arr = { <span class="literal">1</span>, <span class="literal">2</span>, <span class="literal">3</span>, <span class="literal">3</span>, <span class="literal">4</span>, <span class="literal">4</span>, <span class="literal">5</span>, <span class="literal">6</span>, <span class="literal">7</span> };
+        arr = <span class="keyword">new</span> <span class="type">int</span>[] { <span class="literal">1</span>, <span class="literal">2</span>, <span class="literal">3</span>, <span class="literal">4</span>, <span class="literal">5</span>, <span class="literal">6</span> };
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is duplicate : "</span> + <span class="method">isContainsDups</span>(arr));
+    }
+}
+`
+        },
+        {
+            title: "3. Find Min and Max in Array",
+            description: "Write a Java program to find the minimum and maximum elements in an array of integers in a single pass (or the most efficient way possible). The program should return an array containing two elements: [minimum, maximum].",
+            fileName: "MaxMin.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">import</span> java.<span class="method">util</span>.Arrays;
+
+<span class="keyword">public</span> <span class="class-name">class</span> MaxMin {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] <span class="method">minMax</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.<span class="method">length</span>;
+        <span class="keyword">if</span> (arr == <span class="literal">null</span> || n == <span class="literal">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">int</span>[] {};
+        }
+        <span class="type">int</span>[] res = <span class="keyword">new</span> <span class="type">int</span>[<span class="literal">2</span>];
+        <span class="type">int</span> min = Integer.<span class="method">MAX_VALUE</span>;
+        <span class="type">int</span> max = Integer.<span class="method">MIN_VALUE</span>;
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="literal">0</span>; i < n; i++) {
+            <span class="keyword">if</span> (arr[i] < min) {
+                min = arr[i];
+            }
+            <span class="keyword">if</span> (arr[i] > max) {
+                max = arr[i];
+            }
+        }
+        res[<span class="literal">0</span>] = min;
+        res[<span class="literal">1</span>] = max;
+
+        <span class="keyword">return</span> res;
+
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        <span class="type">int</span>[] arr = { -<span class="literal">9</span>, <span class="literal">4</span>, -<span class="literal">2</span>, -<span class="literal">99</span>, -<span class="literal">3</span>, <span class="literal">0</span>, <span class="literal">0</span>, -<span class="literal">2</span>, <span class="literal">3</span>, <span class="literal">1</span> };
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"min and max : "</span> + Arrays.<span class="method">toString</span>(<span class="method">minMax</span>(arr)));
+    }
+}
+`
+        },
+        {
+            title: "4. Reverse an Array",
+            description: "Write a Java program to reverse the order of elements in an array. Implement an **in-place** optimal solution that reverses the array without using a secondary array.",
+            fileName: "Reverse.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">import</span> java.<span class="method">util</span>.Arrays;
+
+<span class="keyword">public</span> <span class="class-name">class</span> Reverse {
+    <span class="comment">// The provided solution includes a non-optimal approach and an optimal in-place one.</span>
+
+    <span class="comment">// optimal approach ( in place )</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] <span class="method">reverse_optimal</span>(<span class="type">int</span>[] arr) {
+        <span class="type">int</span> n = arr.<span class="method">length</span>;
+        <span class="keyword">if</span> (arr == <span class="literal">null</span> || n == <span class="literal">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">int</span>[] {};
+        }
+        <span class="type">int</span> i = <span class="literal">0</span>;
+        <span class="type">int</span> j = n - <span class="literal">1</span>;
+        <span class="keyword">while</span> (i < j) {
+            <span class="type">int</span> temp = arr[i];
+            arr[i] = arr[j];
+            arr[j] = temp;
+            i++;
+            j--;
+        }
+        <span class="keyword">return</span> arr;
+    }
+
+    <span className="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        <span class="type">int</span>[] arr = { <span class="literal">1</span>, <span class="literal">2</span>, <span class="literal">3</span>, <span class="literal">4</span>, <span class="literal">5</span> };
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"reverse array is : "</span> + Arrays.<span class="method">toString</span>(<span class="method">reverse_optimal</span>(arr)));
+    }
+}
+`
+        },
+        {
+            title: "5. Reverse Characters In A String",
+            description: "Write a Java program to reverse the order of characters within a given string. For example, if the input is 'hello', the output should be 'olleh'.",
+            fileName: "ReverseCharsInAString.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> ReverseCharsInAString {
+
+    <span class="comment">// "hello" - > "olleh"</span>
+
+    <span class="keyword">private</span> <span class="keyword">static</span> String <span class="method">reverseChars</span>(String string) {
+        <span class="keyword">if</span> (string == <span class="literal">null</span> || string.<span class="method">length</span>() == <span class="literal">0</span> || string.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="string">""</span>;
+        }
+        <span class="type">char</span>[] charArr = string.<span class="method">toCharArray</span>();
+        <span class="type">int</span> i = <span class="literal">0</span>;
+        <span class="type">int</span> j = charArr.<span class="method">length</span> - <span class="literal">1</span>;
+        <span class="keyword">while</span> (i < j) {
+            <span class="type">char</span> temp = charArr[i];
+            charArr[i] = charArr[j];
+            charArr[j] = temp;
+            i++;
+            j--;
+        }
+        <span class="comment">// Rebuilding the string from the reversed char array</span>
+        String <span class="identifier">result</span> = <span class="string">""</span>;
+        <span class="keyword">for</span> (<span class="type">int</span> idx = <span class="literal">0</span>; idx < charArr.<span class="method">length</span>; idx++) {
+            <span class="identifier">result</span> = <span class="identifier">result</span> + charArr[idx];
+        }
+
+        <span class="keyword">return</span> <span class="identifier">result</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String string = <span class="string">"hello"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"reversed String is : "</span> + <span class="method">reverseChars</span>(string));
+    }
+}
+`
+        },
+        {
+            title: "6. First Non-Repeated Char In A String",
+            description: "Write a Java program to find the first non-repeated character in a given string. If all characters are repeated, return `null`. For example, if the input is 'brijeshbourya', the output should be 'j'.",
+            fileName: "FirstNonRepeatedCharInAString.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> FirstNonRepeatedCharInAString {
+    <span class="comment">// example : input = "mmmmmemmm" , output = e</span>
+
+    <span class="keyword">private</span> <span class="keyword">static</span> Character <span class="method">firstNonRepeatedCharInAString</span>(String string) {
+        <span class="keyword">if</span> (string == <span class="literal">null</span> || string.<span class="method">length</span>() == <span class="literal">0</span> || string.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="literal">null</span>;
+        }
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="literal">0</span>; i < string.<span class="method">length</span>(); i++) {
+            <span class="type">boolean</span> found = <span class="literal">false</span>;
+            <span class="comment">// Inner loop to check if char at i is found elsewhere (j != i)</span>
+            <span class="keyword">for</span> (<span class="type">int</span> j = <span class="literal">0</span>; j < string.<span class="method">length</span>(); j++) {
+                <span class="keyword">if</span> (string.<span class="method">charAt</span>(i) == string.<span class="method">charAt</span>(j) && i != j) {
+                    found = <span class="literal">true</span>;
+                    <span class="keyword">break</span>; <span class="comment">// Optimization: no need to continue if found</span>
+                }
+            }
+            <span class="keyword">if</span> (!found) {
+                <span class="keyword">return</span> string.<span class="method">charAt</span>(i);
+            }
+        }
+
+        <span class="keyword">return</span> <span class="literal">null</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String string = <span class="string">"brijeshbourya"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"non repeated : "</span> + <span class="method">firstNonRepeatedCharInAString</span>(string));
+    }
+}
+`
+        },
+        {
+            title: "7. Count Given Substring In A String",
+            description: "Write a Java program to count the occurrences of a given substring within a larger string. For example, if the main string is 'abcabcbbabcbcabc' and the substring is 'ab', the output should be 4.",
+            fileName: "CountGivenSubstringInAString.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> CountGivenSubstringInAString {
+
+    <span class="comment">// ex : "abcabcbbabcbcabc" sub = ab -> output : 4</span>
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span> <span class="method">count</span>(String string, String sub) {
+        <span class="keyword">if</span> (string == <span class="literal">null</span> || string.<span class="method">length</span>() == <span class="literal">0</span> || string.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="literal">0</span>;
+        }
+        <span class="keyword">if</span> (sub == <span class="literal">null</span> || sub.<span class="method">length</span>() == <span class="literal">0</span> || sub.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="literal">0</span>;
+        }
+
+        <span class="type">int</span> i = <span class="literal">0</span>;
+        <span class="type">int</span> j = <span class="literal">0</span>;
+        <span class="type">int</span> count = <span class="literal">0</span>;
+        <span class="keyword">while</span> (j < string.<span class="method">length</span>()) {
+            <span class="comment">// Check if the window size matches the substring length</span>
+            <span class="keyword">if</span> ((j - i + <span class="literal">1</span>) == sub.<span class="method">length</span>()) {
+                <span class="comment">// Check if the current substring matches the target sub</span>
+                count += sub.<span class="method">equals</span>(string.<span class="method">substring</span>(i, j + <span class="literal">1</span>)) ? <span class="literal">1</span> : <span class="literal">0</span>;
+                i++; <span class="comment">// Move the starting pointer of the window</span>
+            }
+            j++; <span class="comment">// Move the ending pointer of the window</span>
+        }
+
+        <span class="keyword">return</span> count;
+
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String string = <span class="string">"abcabcbbabcbcabc"</span>;
+        String sub = <span class="string">"ab"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"count : "</span> + <span class="method">count</span>(string, sub));
+    }
+}
+`
+        },
+        {
+            title: "8. Count Vowels and Consonants In A String",
+            description: "Write a Java program to count the number of vowels (a, e, i, o, u) and consonants in a given string. The program should return an array or object containing the two counts: [vowels, consonants].",
+            fileName: "CountVowelsAndConsonantsInAString.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">import</span> java.<span class="method">util</span>.Arrays;
+
+<span class="keyword">public</span> <span class="class-name">class</span> CountVowelsAndConsonantsInAString {
+
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] <span class="method">countVC</span>(String string) {
+        <span class="keyword">if</span> (string == <span class="literal">null</span> || string.<span class="method">length</span>() == <span class="literal">0</span> || string.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">int</span>[] { <span class="literal">0</span>, <span class="literal">0</span> };
+        }
+        <span class="type">int</span> v = <span class="literal">0</span>;
+        <span class="type">int</span> c = <span class="literal">0</span>;
+        <span class="comment">// Convert to lowercase to simplify checking for vowels/consonants</span>
+        String lowerCaseString = string.<span class="method">toLowerCase</span>();
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="literal">0</span>; i < lowerCaseString.<span class="method">length</span>(); i++) {
+            <span class="type">char</span> ch = lowerCaseString.<span class="method">charAt</span>(i);
+            <span class="keyword">if</span> (ch == <span class="string">'a'</span> || ch == <span class="string">'e'</span> || ch == <span class="string">'i'</span> || ch == <span class="string">'o'</span> || ch == <span class="string">'u'</span>) {
+                v++;
+            } <span class="keyword">else</span> <span class="keyword">if</span> (ch >= <span class="string">'a'</span> && ch <= <span class="string">'z'</span>) {
+                <span class="comment">// Check if it is a consonant (i.e., a letter but not a vowel)</span>
+                c++;
+            }
+        }
+        <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">int</span>[] { v, c };
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String s = <span class="string">"Brijesh Mourya"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"vowels and consonants are : "</span> + Arrays.<span class="method">toString</span>(<span class="method">countVC</span>(s)));
+    }
+}
+`
+        },
+        {
+            title: "9. Check for Palindrome String",
+            description: "Write a Java program to determine if a given string is a palindrome. A palindrome is a sequence of characters that reads the same forwards and backwards (e.g., 'madam', 'abcba'). The check should ignore case and non-alphanumeric characters for a robust solution.",
+            fileName: "Palindrome.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> Palindrome {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="method">isPalindrome</span>(String s) {
+        <span class="comment">// Note: The provided implementation in the file contained a logical error.</span>
+        <span class="comment">// This code block demonstrates the common and correct implementation pattern for comparison.</span>
+
+        <span class="keyword">if</span> (s == <span class="literal">null</span> || s.<span class="method">length</span>() == <span class="literal">0</span> || s.<span class="method">equals</span>(<span class="string">""</span>)) {
+            <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+        <span class="comment">// Normalizing the string (e.g., to lowercase and removing non-alphanumeric chars)</span>
+        <span class="comment">// is often required for a robust palindrome check, but we use simple check here:</span>
+        String cleanS = s.<span class="method">toLowerCase</span>();
+
+        <span class="type">int</span> i = <span class="literal">0</span>;
+        <span class="type">int</span> j = cleanS.<span class="method">length</span>() - <span class="literal">1</span>;
+        <span class="keyword">while</span> (i < j) {
+            <span class="keyword">if</span> (cleanS.<span class="method">charAt</span>(i) != cleanS.<span class="method">charAt</span>(j)) {
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            }
+            i++;
+            j--;
+        }
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String s1 = <span class="string">"abcba"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is Palindrome (abcba) : "</span> + <span class="method">isPalindrome</span>(s1));
+
+        String s2 = <span class="string">"abcd"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is Palindrome (abcd) : "</span> + <span class="method">isPalindrome</span>(s2));
+
+    }
+}
+`
+        },
+        {
+            title: "10. Rotate Array Right by K Steps",
+            description: "Write a Java program to rotate the elements of an array to the right by *k* steps. Implement an **in-place** optimal solution, likely using the reversal technique, where $k$ is a non-negative integer. For example, rotating `[1, 2, 3, 4, 5]` by $k=2$ steps results in `[4, 5, 1, 2, 3]`.",
+            fileName: "RotateRightByK.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">import</span> java.<span class="method">util</span>.Arrays;
+
+<span class="keyword">public</span> <span class="class-name">class</span> RotateRightByK {
+
+    <span class="comment">// Helper function for reversal, used in the optimal approach</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">reverse</span>(<span class="type">int</span>[] arr, <span class="type">int</span> start, <span class="type">int</span> end) {
+        <span class="keyword">while</span> (start < end) {
+            <span class="type">int</span> temp = arr[start];
+            arr[start] = arr[end];
+            arr[end] = temp;
+            start++;
+            end--;
+        }
+    }
+
+    <span class="comment">// optimal ( in place ) approach - using the Three Reversals technique</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">int</span>[] <span class="method">rotate_optimal</span>(<span class="type">int</span>[] arr, <span class="type">int</span> k) {
+        <span class="type">int</span> n = arr.<span class="method">length</span>;
+        <span class="keyword">if</span> (arr == <span class="literal">null</span> || n == <span class="literal">0</span>) {
+            <span class="keyword">return</span> <span class="keyword">new</span> <span class="type">int</span>[] {};
+        }
+        <span class="comment">// Handle k > n: The effective rotation is k % n</span>
+        k = k % n;
+
+        <span class="comment">// 1. Reverse the entire array (0 to n-1)</span>
+        <span class="method">reverse</span>(arr, <span class="literal">0</span>, n - <span class="literal">1</span>);
+
+        <span class="comment">// 2. Reverse the first k elements (0 to k-1)</span>
+        <span class="method">reverse</span>(arr, <span class="literal">0</span>, k - <span class="literal">1</span>);
+
+        <span class="comment">// 3. Reverse the remaining n-k elements (k to n-1)</span>
+        <span class="method">reverse</span>(arr, k, n - <span class="literal">1</span>);
+
+        <span class="keyword">return</span> arr;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        <span class="type">int</span>[] arr = { <span class="literal">1</span>, <span class="literal">3</span>, <span class="literal">4</span>, <span class="literal">5</span>, <span class="literal">6</span>, <span class="literal">7</span>, <span class="literal">8</span>, <span class="literal">9</span>, <span class="literal">10</span> };
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"rotated arr is : "</span> + Arrays.<span class="method">toString</span>(<span class="method">rotate_optimal</span>(arr, <span class="literal">2</span>)));
+    }
+}
+`
+        },
+        {
+            title: "11. Check if Two Strings are Anagrams",
+            description: "Write a Java program to check if two given strings are anagrams of each other. Anagrams are strings that contain the same characters with the same frequencies, regardless of the order. The implementation should use an efficient counting method (like a frequency array) assuming lowercase English letters. Note: The provided implementation assumes both strings are of the same length.",
+            fileName: "Anagram.java",
+            code: `
+<span class="keyword">package</span> oopslab;
+
+<span class="keyword">public</span> <span class="class-name">class</span> Anagram {
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="type">boolean</span> <span class="method">isAnagram</span>(String a, String b) {
+        <span class="comment">// A robust solution should normalize input and check length first.</span>
+        <span class="keyword">if</span> (a == <span class="literal">null</span> || b == <span class="literal">null</span> || a.<span class="method">length</span>() != b.<span class="method">length</span>()) {
+            <span class="keyword">return</span> <span class="literal">false</span>;
+        }
+
+        String cleanA = a.<span class="method">toLowerCase</span>();
+        String cleanB = b.<span class="method">toLowerCase</span>();
+
+        <span class="type">int</span>[] ana = <span class="keyword">new</span> <span class="type">int</span>[<span class="literal">26</span>];
+        <span class="keyword">for</span> (<span class="type">int</span> i = <span class="literal">0</span>; i < cleanA.<span class="method">length</span>(); i++) {
+            ana[cleanA.<span class="method">charAt</span>(i) - <span class="string">'a'</span>]++;
+            ana[cleanB.<span class="method">charAt</span>(i) - <span class="string">'a'</span>]--;
+        }
+        <span class="comment">// Check if all counts are zero</span>
+        <span class="keyword">for</span> (<span class="type">int</span> i : ana) {
+            <span class="keyword">if</span> (i != <span class="literal">0</span>) {
+                <span class="keyword">return</span> <span class="literal">false</span>;
+            }
+        }
+
+        <span class="keyword">return</span> <span class="literal">true</span>;
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="method">main</span>(String[] args) {
+        String a = <span class="string">"brijesh"</span>;
+        String b = <span class="string">"rbjishe"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is valid anagram ('brijesh', 'rbjishe'): "</span> + <span class="method">isAnagram</span>(a, b));
+
+        String c = <span class="string">"Listen"</span>;
+        String d = <span class="string">"Silent"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is valid anagram ('Listen', 'Silent'): "</span> + <span class="method">isAnagram</span>(c, d));
+
+        String e = <span class="string">"hello"</span>;
+        String f = <span class="string">"world"</span>;
+        System.<span class="method">out</span>.<span class="method">println</span>(<span class="string">"is valid anagram ('hello', 'world'): "</span> + <span class="method">isAnagram</span>(e, f));
+    }
+}
+`
+        }
+    ];
+
+    const questionList = document.getElementById('question-list');
+    const questionTitle = document.getElementById('question-title');
+    const problemText = document.getElementById('problem-text');
+    const javaCodeContent = document.getElementById('java-code-content');
+
+    /**
+     * Cleans up the code formatting by removing the leading/trailing newline
+     * and adjusting the indentation based on the first line's indentation.
+     * @param {string} code The raw code string.
+     * @returns {string} The cleaned and formatted HTML code string.
+     */
+    function cleanAndFormatCode(code) {
+        // 1. Remove leading/trailing newlines added by the template literal
+        let lines = code.trim().split('\n');
+
+        // 2. Determine the minimum indentation of non-empty lines
+        let minIndent = Infinity;
+        for (const line of lines) {
+            if (line.trim().length > 0) {
+                const match = line.match(/^\s*/);
+                const indent = match[0].length;
+                minIndent = Math.min(minIndent, indent);
+            }
+        }
+
+        // 3. Remove that minimum indentation from all lines
+        if (minIndent < Infinity && minIndent > 0) {
+            lines = lines.map(line => line.substring(minIndent));
+        }
+
+        // 4. Join back and return the HTML-formatted string
+        return lines.join('\n');
+    }
+
+
+    /**
+     * Renders the list of questions on the left panel.
+     */
+    function renderQuestionList() {
+        questionsData.forEach((q, index) => {
+            const li = document.createElement('li');
+            const button = document.createElement('button');
+            button.className = 'question-button';
+            button.textContent = q.title;
+            button.dataset.index = index;
+            button.addEventListener('click', () => displayQuestion(index));
+            li.appendChild(button);
+            questionList.appendChild(li);
+        });
+        // Display the first question by default
+        if (questionsData.length > 0) {
+            displayQuestion(0);
+        }
+    }
+
+    /**
+     * Updates the content panel with the selected question's details.
+     * @param {number} index The index of the question in questionsData.
+     */
+    function displayQuestion(index) {
+        const q = questionsData[index];
+
+        // Update Header and Description
+        questionTitle.textContent = q.title;
+        problemText.innerHTML = q.description.replace(/\n/g, '<br>'); // Preserve newlines in description
+
+        // Update Code Block
+        javaCodeContent.innerHTML = cleanAndFormatCode(q.code);
+
+        // Update Active Button Style
+        document.querySelectorAll('.question-button').forEach((btn, i) => {
+            btn.classList.remove('active');
+            if (i === index) {
+                btn.classList.add('active');
+            }
+        });
+    }
+
+    // Initialize the page
+    document.addEventListener('DOMContentLoaded', renderQuestionList);
+</script>
+</body>
+
+</html>
