@@ -127,6 +127,34 @@ const topics = [
         "contributorName": "Anonymous",
         "contributorGithub": "anonymous",
         "owner": true
+    },
+
+    {
+        "title": "Merge Sort Algorithm",
+        "description": "Merge Sort is a powerful and efficient sorting algorithm based on the Divide and Conquer paradigm. It divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.",
+        "difficulty": "medium",
+        "date": "2025-11-14",
+        "completed": true,
+        "filename": "problems/merge_sort.html",
+        "icon": " ",
+        "tags": ["algorithms", "sorting", "divide and conquer", "recursion"],
+        "contributorName": "Jules",
+        "contributorGithub": "jules",
+        "owner": true
+    },
+
+    {
+        "title": "Breadth-First Search (BFS)",
+        "description": "Breadth-First Search (BFS) is an algorithm for traversing or searching tree or graph data structures. It starts at the tree root and explores the neighbor nodes first, before moving to the next level neighbors.",
+        "difficulty": "medium",
+        "date": "2025-11-14",
+        "completed": true,
+        "filename": "problems/bfs_graph.html",
+        "icon": " ",
+        "tags": ["algorithms", "graphs", "traversal", "search"],
+        "contributorName": "Jules",
+        "contributorGithub": "jules",
+        "owner": true
     }
 
 
