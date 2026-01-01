@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merge Sort Algorithm Explained</title>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@400;700&family=Ubuntu+Mono&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Ubuntu', sans-serif;
+        }
+
+        body {
+            background: #2e2e2e;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            min-height: 100vh;
+            padding: 20px;
+            background: #1c2526;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
+        h1,
+        h2,
+        h3 {
+            color: #00ff00;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5em;
+            text-align: center;
+            border-bottom: 2px solid #00ff00;
+            padding-bottom: 10px;
+        }
+
+        p {
+            margin-bottom: 15px;
+            font-size: 1.1em;
+            padding: 0 15px;
+        }
+
+        .code-block {
+            background: #282c34;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 15px;
+            font-family: 'Ubuntu Mono', monospace;
+            font-size: 0.95em;
+            overflow-x: auto;
+        }
+
+        .code-block code {
+            color: #abb2bf;
+        }
+
+        .code-block .keyword {
+            color: #c678dd;
+        }
+
+        .code-block .string {
+            color: #98c379;
+        }
+
+        .code-block .comment {
+            color: #5c6370;
+        }
+
+        .code-block .number {
+            color: #d19a66;
+        }
+
+        .example {
+            background: #353b48;
+            padding: 20px;
+            border-radius: 5px;
+            margin: 20px 15px;
+        }
+
+        .example h3 {
+            color: #61afef;
+        }
+
+        .step {
+            margin: 15px 0;
+            padding-left: 20px;
+            border-left: 3px solid #00ff00;
+        }
+
+        button {
+            background: #00ff00;
+            color: #1c2526;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1em;
+            margin: 10px 15px;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #00cc00;
+        }
+
+        .output {
+            background: #282c34;
+            padding: 15px;
+            border-radius: 5px;
+            margin: 10px 15px;
+            display: none;
+        }
+
+        .output.active {
+            display: block;
+        }
+
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 1.8em;
+            }
+
+            p,
+            .code-block,
+            .example,
+            button,
+            .output {
+                margin-left: 10px;
+                margin-right: 10px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Merge Sort Algorithm Explained</h1>
+
+        <section>
+            <h2>What is Merge Sort?</h2>
+            <p>Merge Sort is a powerful and efficient sorting algorithm based on the <strong>Divide and Conquer</strong> paradigm. It divides the input array into two halves, calls itself for the two halves, and then merges the two sorted halves.</p>
+            <p>It is a stable sort, meaning that it preserves the relative order of equal elements.</p>
+        </section>
+
+        <section>
+            <h2>How Does Merge Sort Work?</h2>
+            <p>Here’s the step-by-step process:</p>
+            <div class="step">
+                <p><strong>1. Divide:</strong> Find the middle point to divide the array into two halves.</p>
+                <p><strong>2. Conquer:</strong> Recursively call merge sort for the first half and the second half.</p>
+                <p><strong>3. Combine:</strong> Merge the two halves sorted in step 2 to produce the final sorted array.</p>
+            </div>
+        </section>
+
+        <section>
+            <h2>Complexity Analysis</h2>
+            <p><strong>Time Complexity:</strong> O(n log n) in all cases (best, average, and worst) as the array is always divided into two halves and traversing the whole array takes linear time.</p>
+            <p><strong>Space Complexity:</strong> O(n) because of the temporary array used for merging.</p>
+        </section>
+
+        <section>
+            <h2>Code Implementation in Java</h2>
+            <p>Here’s a Java implementation of Merge Sort:</p>
+            <div class="code-block">
+                <code>
+                    <span class="keyword">public class</span> MergeSort {<br>
+                        <span class="comment">// Merges two subarrays of arr[].</span><br>
+                        <span class="comment">// First subarray is arr[l..m]</span><br>
+                        <span class="comment">// Second subarray is arr[m+1..r]</span><br>
+                        <span class="keyword">void</span> merge(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> m, <span class="keyword">int</span> r) {<br>
+                            <span class="comment">// Find sizes of two subarrays to be merged</span><br>
+                            <span class="keyword">int</span> n1 = m - l + <span class="number">1</span>;<br>
+                            <span class="keyword">int</span> n2 = r - m;<br>
+                            <br>
+                            <span class="comment">/* Create temp arrays */</span><br>
+                            <span class="keyword">int</span> L[] = <span class="keyword">new</span> <span class="keyword">int</span>[n1];<br>
+                            <span class="keyword">int</span> R[] = <span class="keyword">new</span> <span class="keyword">int</span>[n2];<br>
+                            <br>
+                            <span class="comment">/*Copy data to temp arrays*/</span><br>
+                            <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < n1; ++i)<br>
+                                L[i] = arr[l + i];<br>
+                            <span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j < n2; ++j)<br>
+                                R[j] = arr[m + <span class="number">1</span> + j];<br>
+                            <br>
+                            <span class="comment">/* Merge the temp arrays */</span><br>
+                            <span class="comment">// Initial indexes of first and second subarrays</span><br>
+                            <span class="keyword">int</span> i = <span class="number">0</span>, j = <span class="number">0</span>;<br>
+                            <br>
+                            <span class="comment">// Initial index of merged subarray array</span><br>
+                            <span class="keyword">int</span> k = l;<br>
+                            <span class="keyword">while</span> (i < n1 && j < n2) {<br>
+                                <span class="keyword">if</span> (L[i] <= R[j]) {<br>
+                                    arr[k] = L[i];<br>
+                                    i++;<br>
+                                } <span class="keyword">else</span> {<br>
+                                    arr[k] = R[j];<br>
+                                    j++;<br>
+                                }<br>
+                                k++;<br>
+                            }<br>
+                            <br>
+                            <span class="comment">/* Copy remaining elements of L[] if any */</span><br>
+                            <span class="keyword">while</span> (i < n1) {<br>
+                                arr[k] = L[i];<br>
+                                i++;<br>
+                                k++;<br>
+                            }<br>
+                            <br>
+                            <span class="comment">/* Copy remaining elements of R[] if any */</span><br>
+                            <span class="keyword">while</span> (j < n2) {<br>
+                                arr[k] = R[j];<br>
+                                j++;<br>
+                                k++;<br>
+                            }<br>
+                        }<br>
+                        <br>
+                        <span class="comment">// Main function that sorts arr[l..r] using</span><br>
+                        <span class="comment">// merge()</span><br>
+                        <span class="keyword">void</span> sort(<span class="keyword">int</span> arr[], <span class="keyword">int</span> l, <span class="keyword">int</span> r) {<br>
+                            <span class="keyword">if</span> (l < r) {<br>
+                                <span class="comment">// Find the middle point</span><br>
+                                <span class="keyword">int</span> m = l + (r - l) / <span class="number">2</span>;<br>
+                                <br>
+                                <span class="comment">// Sort first and second halves</span><br>
+                                sort(arr, l, m);<br>
+                                sort(arr, m + <span class="number">1</span>, r);<br>
+                                <br>
+                                <span class="comment">// Merge the sorted halves</span><br>
+                                merge(arr, l, m, r);<br>
+                            }<br>
+                        }<br>
+                    }
+                </code>
+            </div>
+        </section>
+
+        <section>
+            <h2>Examples</h2>
+
+            <div class="example">
+                <h3>Example 1: Sorting an Array</h3>
+                <p>Array: [12, 11, 13, 5, 6, 7]</p>
+                <p>Steps:</p>
+                <ul>
+                    <li>Divide into [12, 11, 13] and [5, 6, 7]</li>
+                    <li>Recursively divide and sort:</li>
+                    <li>[12, 11, 13] -> [11, 12, 13]</li>
+                    <li>[5, 6, 7] -> [5, 6, 7]</li>
+                    <li>Merge [11, 12, 13] and [5, 6, 7]</li>
+                    <li>Result: [5, 6, 7, 11, 12, 13]</li>
+                </ul>
+                <button onclick="showOutput('output1')">Run Example</button>
+                <div id="output1" class="output">
+                    <p>Output: Sorted array is [5, 6, 7, 11, 12, 13]</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+        function showOutput(outputId) {
+            const output = document.getElementById(outputId);
+            output.classList.toggle('active');
+        }
+    </script>
+</body>
+
+</html>
