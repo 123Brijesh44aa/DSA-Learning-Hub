@@ -155,6 +155,48 @@ const topics = [
         "contributorName": "Jules",
         "contributorGithub": "jules",
         "owner": true
+    },
+
+    {
+        "title": "Spanning Tree & MST",
+        "description": "Understand the concepts of Spanning Tree and Minimum Spanning Tree (MST). Learn their properties, applications in network design, and the difference between them.",
+        "difficulty": "medium",
+        "date": "2025-11-14",
+        "completed": true,
+        "filename": "problems/spanning_tree.html",
+        "icon": " ",
+        "tags": ["algorithms", "graphs", "mst", "spanning tree"],
+        "contributorName": "Jules",
+        "contributorGithub": "jules",
+        "owner": true
+    },
+
+    {
+        "title": "Kruskal's Algorithm",
+        "description": "Master Kruskal's Algorithm for finding the Minimum Spanning Tree using a greedy approach and Disjoint Set Union (DSU).",
+        "difficulty": "hard",
+        "date": "2025-11-14",
+        "completed": true,
+        "filename": "problems/kruskals_algorithm.html",
+        "icon": " ",
+        "tags": ["algorithms", "graphs", "mst", "greedy", "kruskal", "dsu"],
+        "contributorName": "Jules",
+        "contributorGithub": "jules",
+        "owner": true
+    },
+
+    {
+        "title": "Prim's Algorithm",
+        "description": "Learn Prim's Algorithm to find the Minimum Spanning Tree by growing the tree one vertex at a time using a greedy strategy.",
+        "difficulty": "hard",
+        "date": "2025-11-14",
+        "completed": true,
+        "filename": "problems/prims_algorithm.html",
+        "icon": " ",
+        "tags": ["algorithms", "graphs", "mst", "greedy", "prim"],
+        "contributorName": "Jules",
+        "contributorGithub": "jules",
+        "owner": true
     }
 
 

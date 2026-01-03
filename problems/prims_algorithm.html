@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prim's Algorithm for MST</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 {
+            color: #80deea;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            border-bottom: 2px solid #80deea;
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+
+        code {
+            color: #dcdcdc;
+            font-size: 0.9rem;
+        }
+
+        .keyword { color: #cc7832; font-weight: bold; }
+        .type { color: #ffc66d; }
+        .string { color: #6a8759; }
+        .number { color: #6897bb; }
+        .comment { color: #808080; font-style: italic; }
+        .annotation { color: #bbb529; }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .step-box {
+            background-color: #263238;
+            padding: 20px;
+            border-left: 4px solid #80deea;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Prim's Algorithm for MST</h1>
+
+        <section>
+            <h2>How It Works</h2>
+            <p><strong>Prim's Algorithm</strong> is another <strong>Greedy Algorithm</strong> to find the Minimum Spanning Tree (MST). Unlike Kruskal's, which builds the MST by adding edges, Prim's algorithm builds the MST by growing it one vertex at a time, starting from an arbitrary vertex.</p>
+
+            <div class="step-box">
+                <h3>Algorithm Steps</h3>
+                <ol>
+                    <li>Create a set <strong>mstSet</strong> that keeps track of vertices already included in the MST.</li>
+                    <li>Assign a key value to all vertices in the graph. Initialize all keys as INFINITE. Assign key value as 0 for the first vertex so that it is picked first.</li>
+                    <li>While <strong>mstSet</strong> doesn't include all vertices:
+                        <ul>
+                            <li>Pick a vertex <strong>u</strong> which is not there in <strong>mstSet</strong> and has minimum key value.</li>
+                            <li>Include <strong>u</strong> to <strong>mstSet</strong>.</li>
+                            <li>Update key value of all adjacent vertices of <strong>u</strong>. To update the key values, iterate through all adjacent vertices. For every adjacent vertex <strong>v</strong>, if weight of edge <strong>u-v</strong> is less than the previous key value of <strong>v</strong>, update the key value as weight of <strong>u-v</strong>.</li>
+                        </ul>
+                    </li>
+                </ol>
+            </div>
+        </section>
+
+        <section>
+            <h2>Time Complexity</h2>
+            <p><strong>O(E log V)</strong> using a Binary Heap (Priority Queue).</p>
+            <p><strong>O(V<sup>2</sup>)</strong> using an adjacency matrix and searching for the minimum key.</p>
+        </section>
+
+        <section>
+            <h2>Java Implementation</h2>
+            <p>Below is the implementation using an Adjacency Matrix and O(V<sup>2</sup>) approach.</p>
+
+            <div class="code-block">
+                <code>
+<span class="keyword">import</span> java.util.*;
+
+<span class="keyword">class</span> <span class="type">PrimsMST</span> {
+    <span class="comment">// Number of vertices in the graph</span>
+    <span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> V = <span class="number">5</span>;
+
+    <span class="comment">// A utility function to find the vertex with minimum key value, from</span>
+    <span class="comment">// the set of vertices not yet included in MST</span>
+    <span class="keyword">int</span> <span class="type">minKey</span>(<span class="keyword">int</span> key[], <span class="keyword">boolean</span> mstSet[]) {
+        <span class="comment">// Initialize min value</span>
+        <span class="keyword">int</span> min = <span class="type">Integer</span>.MAX_VALUE, min_index = -<span class="number">1</span>;
+
+        <span class="keyword">for</span> (<span class="keyword">int</span> v = <span class="number">0</span>; v < V; v++)
+            <span class="keyword">if</span> (mstSet[v] == <span class="keyword">false</span> && key[v] < min) {
+                min = key[v];
+                min_index = v;
+            }
+
+        <span class="keyword">return</span> min_index;
+    }
+
+    <span class="comment">// A utility function to print the constructed MST stored in parent[]</span>
+    <span class="keyword">void</span> <span class="type">printMST</span>(<span class="keyword">int</span> parent[], <span class="keyword">int</span> graph[][]) {
+        <span class="type">System</span>.out.println(<span class="string">"Edge \tWeight"</span>);
+        <span class="keyword">int</span> totalWeight = <span class="number">0</span>;
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">1</span>; i < V; i++) {
+            <span class="type">System</span>.out.println(parent[i] + <span class="string">" - "</span> + i + <span class="string">"\t"</span> + graph[i][parent[i]]);
+            totalWeight += graph[i][parent[i]];
+        }
+        <span class="type">System</span>.out.println(<span class="string">"Total Weight: "</span> + totalWeight);
+    }
+
+    <span class="comment">// Function to construct and print MST for a graph represented using adjacency matrix representation</span>
+    <span class="keyword">void</span> <span class="type">primMST</span>(<span class="keyword">int</span> graph[][]) {
+        <span class="comment">// Array to store constructed MST</span>
+        <span class="keyword">int</span> parent[] = <span class="keyword">new</span> <span class="keyword">int</span>[V];
+
+        <span class="comment">// Key values used to pick minimum weight edge in cut</span>
+        <span class="keyword">int</span> key[] = <span class="keyword">new</span> <span class="keyword">int</span>[V];
+
+        <span class="comment">// To represent set of vertices included in MST</span>
+        <span class="keyword">boolean</span> mstSet[] = <span class="keyword">new</span> <span class="keyword">boolean</span>[V];
+
+        <span class="comment">// Initialize all keys as INFINITE</span>
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < V; i++) {
+            key[i] = <span class="type">Integer</span>.MAX_VALUE;
+            mstSet[i] = <span class="keyword">false</span>;
+        }
+
+        <span class="comment">// Always include first 1st vertex in MST.</span>
+        key[<span class="number">0</span>] = <span class="number">0</span>;     <span class="comment">// Make key 0 so that this vertex is picked as first vertex</span>
+        parent[<span class="number">0</span>] = -<span class="number">1</span>; <span class="comment">// First node is always root of MST</span>
+
+        <span class="comment">// The MST will have V vertices</span>
+        <span class="keyword">for</span> (<span class="keyword">int</span> count = <span class="number">0</span>; count < V - <span class="number">1</span>; count++) {
+            <span class="comment">// Pick the minimum key vertex from the set of vertices</span>
+            <span class="comment">// not yet included in MST</span>
+            <span class="keyword">int</span> u = <span class="type">minKey</span>(key, mstSet);
+
+            <span class="comment">// Add the picked vertex to the MST Set</span>
+            mstSet[u] = <span class="keyword">true</span>;
+
+            <span class="comment">// Update key value and parent index of the adjacent vertices of</span>
+            <span class="comment">// the picked vertex. Consider only those vertices which are not yet</span>
+            <span class="comment">// included in MST</span>
+            <span class="keyword">for</span> (<span class="keyword">int</span> v = <span class="number">0</span>; v < V; v++)
+
+                <span class="comment">// graph[u][v] is non zero only for adjacent vertices of m</span>
+                <span class="comment">// mstSet[v] is false for vertices not yet included in MST</span>
+                <span class="comment">// Update the key only if graph[u][v] is smaller than key[v]</span>
+                <span class="keyword">if</span> (graph[u][v] != <span class="number">0</span> && mstSet[v] == <span class="keyword">false</span> && graph[u][v] < key[v]) {
+                    parent[v] = u;
+                    key[v] = graph[u][v];
+                }
+        }
+
+        <span class="comment">// print the constructed MST</span>
+        <span class="type">printMST</span>(parent, graph);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">main</span>(<span class="type">String</span>[] args) {
+        <span class="type">PrimsMST</span> t = <span class="keyword">new</span> <span class="type">PrimsMST</span>();
+        <span class="keyword">int</span> graph[][] = <span class="keyword">new</span> <span class="keyword">int</span>[][] {
+            { <span class="number">0</span>, <span class="number">2</span>, <span class="number">0</span>, <span class="number">6</span>, <span class="number">0</span> },
+            { <span class="number">2</span>, <span class="number">0</span>, <span class="number">3</span>, <span class="number">8</span>, <span class="number">5</span> },
+            { <span class="number">0</span>, <span class="number">3</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">7</span> },
+            { <span class="number">6</span>, <span class="number">8</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">9</span> },
+            { <span class="number">0</span>, <span class="number">5</span>, <span class="number">7</span>, <span class="number">9</span>, <span class="number">0</span> }
+        };
+
+        <span class="comment">// Print the solution</span>
+        t.<span class="type">primMST</span>(graph);
+    }
+}
+                </code>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

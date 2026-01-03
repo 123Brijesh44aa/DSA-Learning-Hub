@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kruskal's Algorithm for MST</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        body {
+            background-color: #121212;
+            color: #e0e0e0;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        h1, h2, h3 {
+            color: #ffab91;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            text-align: center;
+            border-bottom: 2px solid #ffab91;
+            padding-bottom: 10px;
+            margin-bottom: 40px;
+        }
+
+        p {
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .code-block {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-bottom: 30px;
+            border: 1px solid #333;
+        }
+
+        code {
+            color: #dcdcdc;
+            font-size: 0.9rem;
+        }
+
+        .keyword { color: #cc7832; font-weight: bold; }
+        .type { color: #ffc66d; }
+        .string { color: #6a8759; }
+        .number { color: #6897bb; }
+        .comment { color: #808080; font-style: italic; }
+        .annotation { color: #bbb529; }
+
+        ul, ol {
+            margin-left: 20px;
+            margin-bottom: 20px;
+        }
+
+        li {
+            margin-bottom: 10px;
+        }
+
+        .step-box {
+            background-color: #263238;
+            padding: 20px;
+            border-left: 4px solid #ffab91;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 600px) {
+            h1 { font-size: 2rem; }
+            .container { padding: 20px; }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Kruskal's Algorithm for MST</h1>
+
+        <section>
+            <h2>How It Works</h2>
+            <p><strong>Kruskal's Algorithm</strong> builds the Minimum Spanning Tree (MST) by adding edges one by one, in increasing order of their weight. It is a <strong>Greedy Algorithm</strong>.</p>
+
+            <div class="step-box">
+                <h3>Algorithm Steps</h3>
+                <ol>
+                    <li>Sort all the edges in non-decreasing order of their weight.</li>
+                    <li>Pick the smallest edge. Check if adding it forms a cycle with the spanning tree formed so far.
+                        <ul>
+                            <li>If no cycle is formed, include this edge.</li>
+                            <li>If a cycle is formed, discard it.</li>
+                        </ul>
+                    </li>
+                    <li>Repeat step 2 until there are <strong>(V - 1)</strong> edges in the spanning tree.</li>
+                </ol>
+            </div>
+
+            <p>To efficiently check for cycles, we use the <strong>Disjoint Set Union (DSU)</strong> (or Union-Find) data structure. It allows us to find the set representing a node and union two sets in near-constant time.</p>
+        </section>
+
+        <section>
+            <h2>Time Complexity</h2>
+            <p><strong>O(E log E)</strong> or <strong>O(E log V)</strong>.</p>
+            <ul>
+                <li>Sorting edges takes O(E log E).</li>
+                <li>Iterating through edges and applying Union-Find operations takes O(E &alpha;(V)), where &alpha; is the inverse Ackermann function (nearly constant).</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>Java Implementation</h2>
+            <p>Below is the complete implementation using DSU.</p>
+
+            <div class="code-block">
+                <code>
+<span class="keyword">import</span> java.util.*;
+
+<span class="keyword">class</span> <span class="type">Edge</span> <span class="keyword">implements</span> <span class="type">Comparable</span>&lt;<span class="type">Edge</span>&gt; {
+    <span class="keyword">int</span> src, dest, weight;
+
+    <span class="keyword">public</span> <span class="type">Edge</span>(<span class="keyword">int</span> src, <span class="keyword">int</span> dest, <span class="keyword">int</span> weight) {
+        <span class="keyword">this</span>.src = src;
+        <span class="keyword">this</span>.dest = dest;
+        <span class="keyword">this</span>.weight = weight;
+    }
+
+    <span class="comment">// Sort edges by weight</span>
+    <span class="keyword">public</span> <span class="keyword">int</span> <span class="type">compareTo</span>(<span class="type">Edge</span> compareEdge) {
+        <span class="keyword">return</span> <span class="keyword">this</span>.weight - compareEdge.weight;
+    }
+}
+
+<span class="keyword">public</span> <span class="keyword">class</span> <span class="type">KruskalMST</span> {
+
+    <span class="comment">// A class to represent a subset for union-find</span>
+    <span class="keyword">static</span> <span class="keyword">class</span> <span class="type">Subset</span> {
+        <span class="keyword">int</span> parent, rank;
+    }
+
+    <span class="keyword">int</span> V, E;
+    <span class="type">Edge</span> edge[];
+
+    <span class="type">KruskalMST</span>(<span class="keyword">int</span> v, <span class="keyword">int</span> e) {
+        V = v;
+        E = e;
+        edge = <span class="keyword">new</span> <span class="type">Edge</span>[E];
+        <span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i < e; ++i)
+            edge[i] = <span class="keyword">new</span> <span class="type">Edge</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+    }
+
+    <span class="comment">// A utility function to find set of an element i (uses path compression)</span>
+    <span class="keyword">int</span> <span class="type">find</span>(<span class="type">Subset</span> subsets[], <span class="keyword">int</span> i) {
+        <span class="keyword">if</span> (subsets[i].parent != i)
+            subsets[i].parent = <span class="type">find</span>(subsets, subsets[i].parent);
+        <span class="keyword">return</span> subsets[i].parent;
+    }
+
+    <span class="comment">// A function that does union of two sets of x and y (uses union by rank)</span>
+    <span class="keyword">void</span> <span class="type">Union</span>(<span class="type">Subset</span> subsets[], <span class="keyword">int</span> x, <span class="keyword">int</span> y) {
+        <span class="keyword">int</span> xroot = <span class="type">find</span>(subsets, x);
+        <span class="keyword">int</span> yroot = <span class="type">find</span>(subsets, y);
+
+        <span class="keyword">if</span> (subsets[xroot].rank < subsets[yroot].rank)
+            subsets[xroot].parent = yroot;
+        <span class="keyword">else</span> <span class="keyword">if</span> (subsets[xroot].rank > subsets[yroot].rank)
+            subsets[yroot].parent = xroot;
+        <span class="keyword">else</span> {
+            subsets[yroot].parent = xroot;
+            subsets[xroot].rank++;
+        }
+    }
+
+    <span class="keyword">void</span> <span class="type">KruskalMST</span>() {
+        <span class="type">Edge</span> result[] = <span class="keyword">new</span> <span class="type">Edge</span>[V];
+        <span class="keyword">int</span> e = <span class="number">0</span>;
+        <span class="keyword">int</span> i = <span class="number">0</span>;
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i < V; ++i)
+            result[i] = <span class="keyword">new</span> <span class="type">Edge</span>(<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>);
+
+        <span class="comment">// Step 1: Sort all the edges</span>
+        <span class="type">Arrays</span>.sort(edge);
+
+        <span class="type">Subset</span> subsets[] = <span class="keyword">new</span> <span class="type">Subset</span>[V];
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i < V; ++i)
+            subsets[i] = <span class="keyword">new</span> <span class="type">Subset</span>();
+
+        <span class="keyword">for</span> (<span class="keyword">int</span> v = <span class="number">0</span>; v < V; ++v) {
+            subsets[v].parent = v;
+            subsets[v].rank = <span class="number">0</span>;
+        }
+
+        i = <span class="number">0</span>;
+
+        <span class="comment">// Step 2: Iterate through sorted edges</span>
+        <span class="keyword">while</span> (e < V - <span class="number">1</span> && i < E) {
+            <span class="type">Edge</span> next_edge = edge[i++];
+
+            <span class="keyword">int</span> x = <span class="type">find</span>(subsets, next_edge.src);
+            <span class="keyword">int</span> y = <span class="type">find</span>(subsets, next_edge.dest);
+
+            <span class="comment">// If including this edge doesn't cause cycle, include it</span>
+            <span class="keyword">if</span> (x != y) {
+                result[e++] = next_edge;
+                <span class="type">Union</span>(subsets, x, y);
+            }
+        }
+
+        <span class="comment">// Print the result</span>
+        <span class="type">System</span>.out.println(<span class="string">"Edges in the constructed MST:"</span>);
+        <span class="keyword">int</span> minimumCost = <span class="number">0</span>;
+        <span class="keyword">for</span> (i = <span class="number">0</span>; i < e; ++i) {
+            <span class="type">System</span>.out.println(result[i].src + <span class="string">" -- "</span> + result[i].dest + <span class="string">" == "</span> + result[i].weight);
+            minimumCost += result[i].weight;
+        }
+        <span class="type">System</span>.out.println(<span class="string">"Minimum Cost Spanning Tree: "</span> + minimumCost);
+    }
+
+    <span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="type">main</span>(<span class="type">String</span>[] args) {
+        <span class="keyword">int</span> V = <span class="number">4</span>;
+        <span class="keyword">int</span> E = <span class="number">5</span>;
+        <span class="type">KruskalMST</span> graph = <span class="keyword">new</span> <span class="type">KruskalMST</span>(V, E);
+
+        <span class="comment">// edge 0-1</span>
+        graph.edge[<span class="number">0</span>].src = <span class="number">0</span>;
+        graph.edge[<span class="number">0</span>].dest = <span class="number">1</span>;
+        graph.edge[<span class="number">0</span>].weight = <span class="number">10</span>;
+
+        <span class="comment">// edge 0-2</span>
+        graph.edge[<span class="number">1</span>].src = <span class="number">0</span>;
+        graph.edge[<span class="number">1</span>].dest = <span class="number">2</span>;
+        graph.edge[<span class="number">1</span>].weight = <span class="number">6</span>;
+
+        <span class="comment">// edge 0-3</span>
+        graph.edge[<span class="number">2</span>].src = <span class="number">0</span>;
+        graph.edge[<span class="number">2</span>].dest = <span class="number">3</span>;
+        graph.edge[<span class="number">2</span>].weight = <span class="number">5</span>;
+
+        <span class="comment">// edge 1-3</span>
+        graph.edge[<span class="number">3</span>].src = <span class="number">1</span>;
+        graph.edge[<span class="number">3</span>].dest = <span class="number">3</span>;
+        graph.edge[<span class="number">3</span>].weight = <span class="number">15</span>;
+
+        <span class="comment">// edge 2-3</span>
+        graph.edge[<span class="number">4</span>].src = <span class="number">2</span>;
+        graph.edge[<span class="number">4</span>].dest = <span class="number">3</span>;
+        graph.edge[<span class="number">4</span>].weight = <span class="number">4</span>;
+
+        graph.<span class="type">KruskalMST</span>();
+    }
+}
+                </code>
+            </div>
+        </section>
+    </div>
+</body>
+</html>
